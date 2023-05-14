@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Redis::XS - Fast Redis 6+ client using hiredis RESP3
+Redis::XS - Fast Redis 6+ client using hiredis over RESP3
 
 =head1 BENCHMARKS
 
