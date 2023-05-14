@@ -1,0 +1,38 @@
+=encoding UTF-8
+
+=head1 NAME
+
+Redis::XS - Fast Redis 6+ client using hiredis RESP3
+
+=head1 BENCHMARKS
+
+ $ perl bench.pl 
+
+ Redis       7.0.10
+ Perl        5.37.9
+ CPU         11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz
+
+ Redis       2.000
+ Redis::Fast 0.35
+ Redis::XS   0.001
+
+ PING
+
+                 Rate       Redis Redis::Fast   Redis::XS
+ Redis        66834/s          --        -42%        -72%
+ Redis::Fast 116081/s         74%          --        -52%
+ Redis::XS   240941/s        261%        108%          --
+
+ SET foo 'bar'
+
+                 Rate       Redis Redis::Fast   Redis::XS
+ Redis        88494/s          --        -50%        -63%
+ Redis::Fast 177535/s        101%          --        -26%
+ Redis::XS   240941/s        172%         36%          --
+
+ GET foo
+
+                 Rate       Redis Redis::Fast   Redis::XS
+ Redis        83872/s          --        -55%        -66%
+ Redis::Fast 185579/s        121%          --        -25%
+ Redis::XS   248685/s        197%         34%          --

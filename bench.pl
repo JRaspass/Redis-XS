@@ -1,0 +1,47 @@
+use blib;
+use v5.14;
+use warnings;
+
+use Benchmark 'cmpthese';
+use Redis;
+use Redis::Fast;
+use Redis::XS;
+
+my $redis      = Redis->new;
+my $redis_fast = Redis::Fast->new;
+my $redis_xs   = Redis::XS->new;
+
+say <<END;
+
+Redis       @{[ $redis_xs->redis_version ]}
+Perl        @{[ substr $^V, 1 ]}
+CPU         @{[ `lscpu` =~ /Model name: +(.+)/ ]}
+
+Redis       $Redis::VERSION
+Redis::Fast $Redis::Fast::VERSION
+Redis::XS   $Redis::XS::VERSION
+
+PING
+END
+
+cmpthese -1, {
+    'Redis'       => sub { $redis->ping },
+    'Redis::Fast' => sub { $redis_fast->ping },
+    'Redis::XS'   => sub { $redis_xs->ping },
+};
+
+say "\nSET foo 'bar'\n";
+
+cmpthese -1, {
+    'Redis'       => sub { $redis->set( foo => 'bar' ) },
+    'Redis::Fast' => sub { $redis_fast->set( foo => 'bar' ) },
+    'Redis::XS'   => sub { $redis_xs->set( foo => 'bar' ) },
+};
+
+say "\nGET foo\n";
+
+cmpthese -1, {
+    'Redis'       => sub { $redis->get('foo') },
+    'Redis::Fast' => sub { $redis_fast->get('foo') },
+    'Redis::XS'   => sub { $redis_xs->get('foo') },
+};
