@@ -150,24 +150,26 @@ BOOT:
 
 redisContext *new(const char *class, ...)
     CODE:
-        redisOptions opt = { .options = REDIS_OPT_PREFER_IP_UNSPEC };
-
-        REDIS_OPTIONS_SET_TCP(&opt, "127.0.0.1", 6379);
-
-        // Parse arguments.
         if (!(items % 2)) croak("Odd number of arguments");
 
-        const char *lib_name = class,
+        // Default arguments.
+        const char *host     = "localhost",
+                   *lib_name = class,
                    *lib_ver  = VERSION,
                    *name     = class,
                    *password = NULL,
                    *username = "default";
 
+        int port = 6379;
+
+        // Parse arguments.
         for (int i = 1; i < items; i += 2) {
             char *key = SvPV_nolen(ST(i));
             SV   *val = ST(i + 1);
 
-            if (strEQ(key, "lib_name"))
+            if (strEQ(key, "host"))
+                host = SvPV_nolen(val);
+            else if (strEQ(key, "lib_name"))
                 lib_name = SvPV_nolen(val);
             else if (strEQ(key, "lib_ver"))
                 lib_ver = SvPV_nolen(val);
@@ -175,11 +177,16 @@ redisContext *new(const char *class, ...)
                 name = SvPV_nolen(val);
             else if (strEQ(key, "password"))
                 password = SvPV_nolen(val);
+            else if (strEQ(key, "port"))
+                port = SvIV(val);
             else if (strEQ(key, "username"))
                 username = SvPV_nolen(val);
             else
                 croak("Unknown argument: %s", key);
         }
+
+        redisOptions opt = { .options = REDIS_OPT_PREFER_IP_UNSPEC };
+        REDIS_OPTIONS_SET_TCP(&opt, host, port);
 
         // Connect.
         redisContext *self = redisConnectWithOptions(&opt);
