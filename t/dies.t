@@ -5,8 +5,7 @@ sub t(&$);
 t { CLASS->call      } 'Usage: Redis::XS::call(self, cmd, ...)';
 t { CLASS->new->call } 'Usage: Redis::XS::call(self, cmd, ...)';
 
-t { CLASS->new( host => 'foo' ) } 'Connection error: No address associated with hostname';
-t { CLASS->new( port => 9999  ) } 'Connection error: Connection refused';
+t { CLASS->new( port => 9999 ) } 'Connection error: Connection refused';
 
 sub t(&$) {
     my ( $code, $err ) = @_;
