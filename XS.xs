@@ -77,6 +77,8 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
             tup.err = sv_2mortal(newSVpvf("Unknown reply type: %d", reply->type));
     }
 
+    SvTAINTED_on(tup.sv);
+
     return tup;
 }
 
