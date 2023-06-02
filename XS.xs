@@ -71,7 +71,7 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
             break;
         }
         case REDIS_REPLY_NIL:
-            tup.sv = &PL_sv_undef;
+            tup.sv = sv_2mortal(newSV(0));
             break;
         default:
             tup.err = sv_2mortal(newSVpvf("Unknown reply type: %d", reply->type));
