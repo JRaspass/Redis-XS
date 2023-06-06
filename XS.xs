@@ -38,6 +38,7 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
             break;
         }
         case REDIS_REPLY_BIGNUM:
+        case REDIS_REPLY_DOUBLE:
         case REDIS_REPLY_STATUS:
         case REDIS_REPLY_STRING:
         case REDIS_REPLY_VERB:
@@ -45,9 +46,6 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
             break;
         case REDIS_REPLY_BOOL:
             tup.sv = boolSV(reply->integer);
-            break;
-        case REDIS_REPLY_DOUBLE:
-            tup.sv = sv_2mortal(newSVnv(strtod(reply->str, NULL)));
             break;
         case REDIS_REPLY_ERROR:
             tup.err = sv_2mortal(newSVpvn(reply->str, reply->len));

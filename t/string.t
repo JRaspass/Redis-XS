@@ -10,6 +10,15 @@ subtest GETSET => sub {
     is $redis->get('mykey'),               'World', 'GET mykey';
 };
 
+# https://redis.io/commands/incrbyfloat/
+subtest INCRBYFLOAT => sub {
+    is $redis->set(         mykey => '10.50' ), 'OK';
+    is $redis->incrbyfloat( mykey => '0.1'   ), '10.6';
+    is $redis->incrbyfloat( mykey => '-5'    ), '5.6';
+    is $redis->set(         mykey => '5.0e3' ), 'OK';
+    is $redis->incrbyfloat( mykey => '2.0e2' ), '5200';
+};
+
 # https://redis.io/commands/lcs/
 my $cmd = $redis->redis_version ge v7 ? 'LCS' : 'STRALGO LCS';
 subtest $cmd => sub {
