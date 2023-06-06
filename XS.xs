@@ -26,13 +26,13 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
         case REDIS_REPLY_ARRAY:
         case REDIS_REPLY_SET: {
             AV* const av = newAV_alloc_x(reply->elements);
-            tup.sv = sv_2mortal(newRV_noinc((SV*) av));
+            tup.sv = newRV_noinc((SV*) av);
 
             for (size_t i = 0; i < reply->elements; i++) {
                 // TODO Handle tup.err
                 replyTuple tup = decodeReply(aTHX_ reply->element[i]);
 
-                av_store_simple(av, i, SvREFCNT_inc(tup.sv));
+                av_store_simple(av, i, tup.sv);
             }
 
             break;
@@ -42,37 +42,36 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
         case REDIS_REPLY_STATUS:
         case REDIS_REPLY_STRING:
         case REDIS_REPLY_VERB:
-            tup.sv = sv_2mortal(newSVpvn(reply->str, reply->len));
+            tup.sv = newSVpvn(reply->str, reply->len);
             break;
         case REDIS_REPLY_BOOL:
             tup.sv = boolSV(reply->integer);
             break;
         case REDIS_REPLY_ERROR:
-            tup.err = sv_2mortal(newSVpvn(reply->str, reply->len));
+            tup.err = newSVpvn(reply->str, reply->len);
             break;
         case REDIS_REPLY_INTEGER:
-            tup.sv = sv_2mortal(newSViv(reply->integer));
+            tup.sv = newSViv(reply->integer);
             break;
         case REDIS_REPLY_MAP: {
             HV *hv = newHV();
-            tup.sv = sv_2mortal(newRV_noinc((SV*) hv));
+            tup.sv = newRV_noinc((SV*) hv);
 
             for (size_t i = 0; i < reply->elements; i += 2) {
                 // TODO Handle key.err, val.err
                 replyTuple key = decodeReply(aTHX_ reply->element[i]);
                 replyTuple val = decodeReply(aTHX_ reply->element[i + 1]);
 
-                if (!hv_store_ent(hv, key.sv, SvREFCNT_inc(val.sv), 0))
-                    SvREFCNT_dec(val.sv);
+                hv_store_ent(hv, key.sv, val.sv, 0);
             }
 
             break;
         }
         case REDIS_REPLY_NIL:
-            tup.sv = sv_2mortal(newSV(0));
+            tup.sv = newSV(0);
             break;
         default:
-            tup.err = sv_2mortal(newSVpvf("Unknown reply type: %d", reply->type));
+            tup.err = newSVpvf("Unknown reply type: %d", reply->type);
     }
 
     SvTAINTED_on(tup.sv);
@@ -94,7 +93,9 @@ static IV runCommand(
     replyTuple tup = decodeReply(aTHX_ reply);
     freeReplyObject(reply);
 
-    if (tup.err) croak_sv(tup.err);
+    tup.sv = sv_2mortal(tup.sv);
+
+    if (tup.err) croak_sv(sv_2mortal(tup.err));
 
     // Return arrays as a list in list context.
     // TODO Do the same for hashes.
@@ -193,12 +194,12 @@ redisContext *new(const char *class, ...)
         if (!self || self->err) {
             SV *err;
             if (self) {
-                err = sv_2mortal(newSVpvf("Connection error: %s", self->errstr));
+                err = newSVpvf("Connection error: %s", self->errstr);
                 redisFree(self);
             } else {
-                err = sv_2mortal(newSVpvs("Connection error: can't allocate redis context"));
+                err = newSVpvs("Connection error: can't allocate redis context");
             }
-            croak_sv(err);
+            croak_sv(sv_2mortal(err));
         }
 
         // TODO AUTH. Pipeline.

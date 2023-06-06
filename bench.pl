@@ -45,3 +45,11 @@ cmpthese -1, {
     'Redis::Fast' => sub { $redis_fast->get('foo') },
     'Redis::XS'   => sub { $redis_xs->get('foo') },
 };
+
+say "\nINFO\n";
+
+cmpthese -1, {
+    'Redis'       => sub { $redis->info },
+    'Redis::Fast' => sub { $redis_fast->info },
+    'Redis::XS'   => sub { $redis_xs->info },
+};
