@@ -22,6 +22,7 @@ typedef struct { SV *sv, *err; } replyTuple;
 static replyTuple decodeReply(pTHX_ redisReply* reply) {
     replyTuple tup = {};
 
+    // TODO REDIS_REPLY_PUSH
     switch (reply->type) {
         case REDIS_REPLY_ARRAY:
         case REDIS_REPLY_SET: {
@@ -33,6 +34,21 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
                 replyTuple tup = decodeReply(aTHX_ reply->element[i]);
 
                 av_store_simple(av, i, tup.sv);
+            }
+
+            break;
+        }
+        case REDIS_REPLY_ATTR:
+        case REDIS_REPLY_MAP: {
+            HV *hv = newHV();
+            tup.sv = newRV_noinc((SV*) hv);
+
+            for (size_t i = 0; i < reply->elements; i += 2) {
+                // TODO Handle key.err, val.err
+                replyTuple key = decodeReply(aTHX_ reply->element[i]);
+                replyTuple val = decodeReply(aTHX_ reply->element[i + 1]);
+
+                hv_store_ent(hv, key.sv, val.sv, 0);
             }
 
             break;
@@ -53,20 +69,6 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
         case REDIS_REPLY_INTEGER:
             tup.sv = newSViv(reply->integer);
             break;
-        case REDIS_REPLY_MAP: {
-            HV *hv = newHV();
-            tup.sv = newRV_noinc((SV*) hv);
-
-            for (size_t i = 0; i < reply->elements; i += 2) {
-                // TODO Handle key.err, val.err
-                replyTuple key = decodeReply(aTHX_ reply->element[i]);
-                replyTuple val = decodeReply(aTHX_ reply->element[i + 1]);
-
-                hv_store_ent(hv, key.sv, val.sv, 0);
-            }
-
-            break;
-        }
         case REDIS_REPLY_NIL:
             tup.sv = newSV(0);
             break;
