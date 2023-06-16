@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile
     CCFLAGS      => "$Config::Config{ccflags} -Wall -Wextra -std=c99",
     LIBS         => '-lcrypto -lssl',
-    MYEXTLIB     => join( ' ', <hiredis/libhiredis{,_ssl}\$(LIB_EXT)> ),
+    MYEXTLIB     => join( ' ', <modules/hiredis/libhiredis{,_ssl}\$(LIB_EXT)> ),
     NAME         => 'Redis::XS',
     VERSION_FROM => 'lib/Redis/XS.pm',
 
@@ -17,6 +17,6 @@ WriteMakefile
     };
 
 sub MY::postamble { <<'MAKE' }
-$(MYEXTLIB): hiredis/Makefile
-	$(MAKE) -C hiredis USE_SSL=1
+$(MYEXTLIB): modules/hiredis/Makefile
+	$(MAKE) -C modules/hiredis USE_SSL=1
 MAKE

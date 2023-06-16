@@ -4,8 +4,8 @@
 #include "XSUB.h"
 
 #include "commands.h"
-#include "hiredis/hiredis.h"
-#include "hiredis/hiredis_ssl.h"
+#include "modules/hiredis/hiredis.h"
+#include "modules/hiredis/hiredis_ssl.h"
 #include "ppport.h"
 
 // TODO Port these to Devel::PPPort. Copy parts/inc/newRV.
