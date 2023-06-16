@@ -20,7 +20,7 @@ my %cmds = (
     ],
 );
 
-for (<modules/redis/src/commands/*.json>) {
+for (<modules/{redis/src/commands/*.json,RedisJSON/commands.json}>) {
     my $json = decode_json do { local ( @ARGV, $/ ) = $_; <> };
 
     while ( my ( $cmd, $info ) = each %$json ) {

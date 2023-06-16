@@ -40,6 +40,14 @@ static const char* const commands[] = {
 // hyperloglog
 "pfadd", "pfcount", "pfdebug", "pfmerge", "pfselftest",
 
+// json
+"json.arrappend", "json.arrindex", "json.arrinsert", "json.arrlen",
+"json.arrpop", "json.arrtrim", "json.clear", "json.debug", "json.debug|help",
+"json.debug|memory", "json.del", "json.forget", "json.get", "json.merge",
+"json.mget", "json.mset", "json.numincrby", "json.nummultby", "json.objkeys",
+"json.objlen", "json.resp", "json.set", "json.strappend", "json.strlen",
+"json.toggle", "json.type",
+
 // list
 "blmove", "blmpop", "blpop", "brpop", "brpoplpush", "lindex", "linsert",
 "llen", "lmove", "lmpop", "lpop", "lpos", "lpush", "lpushx", "lrange", "lrem",

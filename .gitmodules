@@ -5,3 +5,6 @@
 [submodule "redis"]
 	path = modules/redis
 	url = git@github.com:redis/redis.git
+[submodule "RedisJSON"]
+	path = modules/RedisJSON
+	url = git@github.com:RedisJSON/RedisJSON.git
