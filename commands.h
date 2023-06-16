@@ -1,8 +1,8 @@
 static const char* const commands[] = {
-// Bitmap
+// bitmap
 "bitcount", "bitfield", "bitfield_ro", "bitop", "bitpos", "getbit", "setbit",
 
-// Cluster Management
+// cluster
 "asking", "cluster", "cluster|addslots", "cluster|addslotsrange",
 "cluster|bumpepoch", "cluster|count-failure-reports",
 "cluster|countkeysinslot", "cluster|delslots", "cluster|delslotsrange",
@@ -13,7 +13,7 @@ static const char* const commands[] = {
 "cluster|saveconfig", "cluster|set-config-epoch", "cluster|setslot",
 "cluster|shards", "cluster|slaves", "cluster|slots", "readonly", "readwrite",
 
-// Connection Management
+// connection
 "auth", "client", "client|caching", "client|getname", "client|getredir",
 "client|help", "client|id", /* client|info */ "client|kill", /* client|list */
 "client|no-evict", "client|no-touch", "client|pause", "client|reply",
@@ -21,44 +21,44 @@ static const char* const commands[] = {
 "client|unblock", "client|unpause", "echo", "hello", "ping", "quit", "reset",
 "select",
 
-// Generic
+// generic
 "copy", "del", "dump", "exists", "expire", "expireat", "expiretime", "keys",
 "migrate", "move", "object", "object|encoding", "object|freq", "object|help",
 "object|idletime", "object|refcount", "persist", "pexpire", "pexpireat",
 "pexpiretime", "pttl", "randomkey", "rename", "renamenx", "restore", "scan",
 "sort", "sort_ro", "touch", "ttl", "type", "unlink", "wait", "waitaof",
 
-// Geospatial Indices
+// geo
 "geoadd", "geodist", "geohash", "geopos", "georadius", "georadius_ro",
 "georadiusbymember", "georadiusbymember_ro", "geosearch", "geosearchstore",
 
-// Hash
+// hash
 "hdel", "hexists", "hget", "hgetall", "hincrby", "hincrbyfloat", "hkeys",
 "hlen", "hmget", "hmset", "hrandfield", "hscan", "hset", "hsetnx", "hstrlen",
 "hvals",
 
-// HyperLogLog
+// hyperloglog
 "pfadd", "pfcount", "pfdebug", "pfmerge", "pfselftest",
 
-// List
+// list
 "blmove", "blmpop", "blpop", "brpop", "brpoplpush", "lindex", "linsert",
 "llen", "lmove", "lmpop", "lpop", "lpos", "lpush", "lpushx", "lrange", "lrem",
 "lset", "ltrim", "rpop", "rpoplpush", "rpush", "rpushx",
 
-// Pub/Sub
+// pubsub
 "psubscribe", "publish", "pubsub", "pubsub|channels", "pubsub|help",
 "pubsub|numpat", "pubsub|numsub", "pubsub|shardchannels",
 "pubsub|shardnumsub", "punsubscribe", "spublish", "ssubscribe", "subscribe",
 "sunsubscribe", "unsubscribe",
 
-// Scripting and Functions
+// scripting
 "eval", "eval_ro", "evalsha", "evalsha_ro", "fcall", "fcall_ro", "function",
 "function|delete", "function|dump", "function|flush", "function|help",
 "function|kill", "function|list", "function|load", "function|restore",
 "function|stats", "script", "script|debug", "script|exists", "script|flush",
 "script|help", "script|kill", "script|load",
 
-// Server Management
+// server
 "acl", "acl|cat", "acl|deluser", "acl|dryrun", "acl|genpass", "acl|getuser",
 "acl|help", "acl|list", "acl|load", "acl|log", "acl|save", "acl|setuser",
 "acl|users", "acl|whoami", "bgrewriteaof", "bgsave", "command",
@@ -75,12 +75,12 @@ static const char* const commands[] = {
 "slaveof", "slowlog", "slowlog|get", "slowlog|help", "slowlog|len",
 "slowlog|reset", "swapdb", "sync", "time",
 
-// Set
+// set
 "sadd", "scard", "sdiff", "sdiffstore", "sinter", "sintercard", "sinterstore",
 "sismember", "smembers", "smismember", "smove", "spop", "srandmember", "srem",
 "sscan", "sunion", "sunionstore",
 
-// Sorted Set
+// sorted_set
 "bzmpop", "bzpopmax", "bzpopmin", "zadd", "zcard", "zcount", "zdiff",
 "zdiffstore", "zincrby", "zinter", "zintercard", "zinterstore", "zlexcount",
 "zmpop", "zmscore", "zpopmax", "zpopmin", "zrandmember", "zrange",
@@ -89,19 +89,19 @@ static const char* const commands[] = {
 "zrevrangebylex", "zrevrangebyscore", "zrevrank", "zscan", "zscore", "zunion",
 "zunionstore",
 
-// Stream
+// stream
 "xack", "xadd", "xautoclaim", "xclaim", "xdel", "xgroup", "xgroup|create",
 "xgroup|createconsumer", "xgroup|delconsumer", "xgroup|destroy",
 "xgroup|help", "xgroup|setid", "xinfo", "xinfo|consumers", "xinfo|groups",
 "xinfo|help", "xinfo|stream", "xlen", "xpending", "xrange", "xread",
 "xreadgroup", "xrevrange", "xsetid", "xtrim",
 
-// String
+// string
 "append", "decr", "decrby", "get", "getdel", "getex", "getrange", "getset",
 "incr", "incrby", "incrbyfloat", "lcs", "mget", "mset", "msetnx", "psetex",
 "set", "setex", "setnx", "setrange", "stralgo|lcs", "strlen", "substr",
 
-// Transactions
+// transactions
 "discard", "exec", "multi", "unwatch", "watch",
 
 0};

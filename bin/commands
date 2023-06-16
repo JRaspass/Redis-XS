@@ -1,0 +1,59 @@
+#!/usr/bin/env perl
+
+use v5.36;
+use experimental qw( for_list );
+
+use JSON::PP;
+
+# Skip commands that have bespoke methods.
+my %skip = map { $_ => 1 } qw( client|info client|list info );
+
+# Some commands have been removed/renamed, manually list them here.
+my %cmds = (
+    string => [
+        {
+            command       => 'stralgo|lcs',
+            removed_since => '7.0.0',
+            since         => '6.0.0',
+            summary       => 'Finds the longest common substring.',
+        },
+    ],
+);
+
+for (<modules/redis/src/commands/*.json>) {
+    my $json = decode_json do { local ( @ARGV, $/ ) = $_; <> };
+
+    while ( my ( $cmd, $info ) = each %$json ) {
+        push $cmds{ $info->{group} }->@*, {
+            $info->%{ qw( deprecated_since summary since ) },
+            command => lc( join '|', $info->{container} // (), $cmd =~ y/ /|/r ),
+        };
+    }
+}
+
+# We don't support sentinel commands.
+delete $cmds{sentinel};
+
+open STDOUT, '>', 'commands.h';
+
+say 'static const char* const commands[] = {';
+
+for my ( $group, $cmds ) ( %cmds{ sort keys %cmds } ) {
+    say "// $group";
+
+    my $line = '';
+    for ( sort map $_->{command}, @$cmds ) {
+        my $elem = $skip{$_} ? qq(/* $_ */ ) : qq("$_", );
+
+        if ( ( length($line) + length($elem) ) >= 80 ) {
+            say $line =~ s/ $//r;
+            $line = '';
+        }
+
+        $line .= $elem;
+    }
+
+    say $line =~ s/ $/\n/r;
+}
+
+say '0};';
