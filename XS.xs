@@ -142,9 +142,9 @@ BOOT:
         strcpy(name, "Redis::XS::");
         strcpy(name + strlen("Redis::XS::"), commands[i]);
 
-        // Replace pipes and hyphens with underscores in the sub name.
+        // Replace pipes, hyphens, & spaces with underscores in the sub name.
         for (int j = 0; j < len; j++)
-            if (name[j] == '|' || name[j] == '-')
+            if (name[j] == '|' || name[j] == '-' || name[j] == '.')
                 name[j] = '_';
 
         CV *cv = newXS(name, XS_Redis__XS_bitcount, file);

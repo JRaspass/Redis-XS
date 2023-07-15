@@ -11,9 +11,9 @@ subtest JSON_STRLEN => sub {
     is $redis->flushdb, 'OK', 'FLUSHDB';
 
     my $doc = '{"a":"foo", "nested": {"a": "hello"}, "nested2": {"a": 31}}';
-    is $redis->call('JSON.SET', 'doc', '$', $doc), 'OK', 'JSON.SET';
+    is $redis->json_set('doc', '$', $doc), 'OK', 'JSON.SET';
 
-    is $redis->call(qw(JSON.STRLEN doc $..a)), [3, 5, undef], 'JSON.STRLEN';
+    is $redis->json_strlen(qw(doc $..a)), [3, 5, undef], 'JSON.STRLEN';
 };
 
 is $redis->flushdb, 'OK', 'FLUSHDB';
