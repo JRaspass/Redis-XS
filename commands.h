@@ -44,9 +44,9 @@ static const char* const commands[] = {
 "json.arrappend", "json.arrindex", "json.arrinsert", "json.arrlen",
 "json.arrpop", "json.arrtrim", "json.clear", "json.debug", "json.debug|help",
 "json.debug|memory", "json.del", "json.forget", "json.get", "json.merge",
-"json.mget", "json.mset", "json.numincrby", "json.nummultby", "json.objkeys",
-"json.objlen", "json.resp", "json.set", "json.strappend", "json.strlen",
-"json.toggle", "json.type",
+"json.mget", "json.mset", "json.numincrby", "json.nummultby", "json.numpowby",
+"json.objkeys", "json.objlen", "json.resp", "json.set", "json.strappend",
+"json.strlen", "json.toggle", "json.type",
 
 // list
 "blmove", "blmpop", "blpop", "brpop", "brpoplpush", "lindex", "linsert",

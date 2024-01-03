@@ -10,13 +10,12 @@ my %skip = map { $_ => 1 } qw( client|info client|list info );
 
 # Some commands have been removed/renamed, manually list them here.
 my %cmds = (
+    json   => [
+        # Removed in https://github.com/RedisJSON/RedisJSON/pull/369.
+        { command => 'json.numpowby', removed => 1 },
+    ],
     string => [
-        {
-            command       => 'stralgo|lcs',
-            removed_since => '7.0.0',
-            since         => '6.0.0',
-            summary       => 'Finds the longest common substring.',
-        },
+        { command => 'stralgo|lcs', removed => 1 },
     ],
 );
 
