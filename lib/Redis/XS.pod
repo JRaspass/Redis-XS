@@ -36,3 +36,3091 @@ Redis::XS - Fast Redis 6+ client using hiredis over RESP3
  Redis        83872/s          --        -55%        -66%
  Redis::Fast 185579/s        121%          --        -25%
  Redis::XS   248685/s        197%         34%          --
+
+=head1 COMMANDS
+
+=head2 bitmap
+
+=head3 bitcount
+
+  $r->bitcount(...);
+
+Counts the number of set bits (population counting) in a string.
+
+Since 2.6.0. See L<https://redis.io/commands/bitcount/>.
+
+=head3 bitfield
+
+  $r->bitfield(...);
+
+Performs arbitrary bitfield integer operations on strings.
+
+Since 3.2.0. See L<https://redis.io/commands/bitfield/>.
+
+=head3 bitfield_ro
+
+  $r->bitfield_ro(...);
+
+Performs arbitrary read-only bitfield integer operations on strings.
+
+Since 6.0.0. See L<https://redis.io/commands/bitfield_ro/>.
+
+=head3 bitop
+
+  $r->bitop(...);
+
+Performs bitwise operations on multiple strings, and stores the result.
+
+Since 2.6.0. See L<https://redis.io/commands/bitop/>.
+
+=head3 bitpos
+
+  $r->bitpos(...);
+
+Finds the first set (1) or clear (0) bit in a string.
+
+Since 2.8.7. See L<https://redis.io/commands/bitpos/>.
+
+=head3 getbit
+
+  $r->getbit($key, $offset);
+
+Returns a bit value by offset.
+
+Since 2.2.0. See L<https://redis.io/commands/getbit/>.
+
+=head3 setbit
+
+  $r->setbit($key, $offset, $value);
+
+Sets or clears the bit at offset of the string value. Creates the key if it doesn't exist.
+
+Since 2.2.0. See L<https://redis.io/commands/setbit/>.
+
+=head2 cluster
+
+=head3 asking
+
+  $r->asking;
+
+Signals that a cluster client is following an -ASK redirect.
+
+Since 3.0.0. See L<https://redis.io/commands/asking/>.
+
+=head3 cluster addslots
+
+  $r->cluster_addslots(@slots);
+
+Assigns new hash slots to a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-addslots/>.
+
+=head3 cluster addslotsrange
+
+  $r->cluster_addslotsrange(...);
+
+Assigns new hash slot ranges to a node.
+
+Since 7.0.0. See L<https://redis.io/commands/cluster-addslotsrange/>.
+
+=head3 cluster bumpepoch
+
+  $r->cluster_bumpepoch;
+
+Advances the cluster config epoch.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-bumpepoch/>.
+
+=head3 cluster count-failure-reports
+
+  $r->cluster_count_failure_reports($node_id);
+
+Returns the number of active failure reports active for a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-count-failure-reports/>.
+
+=head3 cluster countkeysinslot
+
+  $r->cluster_countkeysinslot($slot);
+
+Returns the number of keys in a hash slot.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-countkeysinslot/>.
+
+=head3 cluster delslots
+
+  $r->cluster_delslots(@slots);
+
+Sets hash slots as unbound for a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-delslots/>.
+
+=head3 cluster delslotsrange
+
+  $r->cluster_delslotsrange(...);
+
+Sets hash slot ranges as unbound for a node.
+
+Since 7.0.0. See L<https://redis.io/commands/cluster-delslotsrange/>.
+
+=head3 cluster failover
+
+  $r->cluster_failover(...);
+
+Forces a replica to perform a manual failover of its master.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-failover/>.
+
+=head3 cluster flushslots
+
+  $r->cluster_flushslots;
+
+Deletes all slots information from a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-flushslots/>.
+
+=head3 cluster forget
+
+  $r->cluster_forget($node_id);
+
+Removes a node from the nodes table.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-forget/>.
+
+=head3 cluster getkeysinslot
+
+  $r->cluster_getkeysinslot($slot, $count);
+
+Returns the key names in a hash slot.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-getkeysinslot/>.
+
+=head3 cluster help
+
+  $r->cluster_help;
+
+Returns helpful text about the different subcommands.
+
+Since 5.0.0. See L<https://redis.io/commands/cluster-help/>.
+
+=head3 cluster info
+
+  $r->cluster_info;
+
+Returns information about the state of a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-info/>.
+
+=head3 cluster keyslot
+
+  $r->cluster_keyslot($key);
+
+Returns the hash slot for a key.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-keyslot/>.
+
+=head3 cluster links
+
+  $r->cluster_links;
+
+Returns a list of all TCP links to and from peer nodes.
+
+Since 7.0.0. See L<https://redis.io/commands/cluster-links/>.
+
+=head3 cluster meet
+
+  $r->cluster_meet(...);
+
+Forces a node to handshake with another node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-meet/>.
+
+=head3 cluster myid
+
+  $r->cluster_myid;
+
+Returns the ID of a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-myid/>.
+
+=head3 cluster myshardid
+
+  $r->cluster_myshardid;
+
+Returns the shard ID of a node.
+
+Since 7.2.0. See L<https://redis.io/commands/cluster-myshardid/>.
+
+=head3 cluster nodes
+
+  $r->cluster_nodes;
+
+Returns the cluster configuration for a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-nodes/>.
+
+=head3 cluster replicas
+
+  $r->cluster_replicas($node_id);
+
+Lists the replica nodes of a master node.
+
+Since 5.0.0. See L<https://redis.io/commands/cluster-replicas/>.
+
+=head3 cluster replicate
+
+  $r->cluster_replicate($node_id);
+
+Configure a node as replica of a master node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-replicate/>.
+
+=head3 cluster reset
+
+  $r->cluster_reset(...);
+
+Resets a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-reset/>.
+
+=head3 cluster saveconfig
+
+  $r->cluster_saveconfig;
+
+Forces a node to save the cluster configuration to disk.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-saveconfig/>.
+
+=head3 cluster set-config-epoch
+
+  $r->cluster_set_config_epoch($config_epoch);
+
+Sets the configuration epoch for a new node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-set-config-epoch/>.
+
+=head3 cluster setslot
+
+  $r->cluster_setslot(...);
+
+Binds a hash slot to a node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-setslot/>.
+
+=head3 cluster shards
+
+  $r->cluster_shards;
+
+Returns the mapping of cluster slots to shards.
+
+Since 7.0.0. See L<https://redis.io/commands/cluster-shards/>.
+
+=head3 cluster slaves
+
+  $r->cluster_slaves($node_id);
+
+Lists the replica nodes of a master node.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-slaves/>.
+
+=head3 cluster slots
+
+  $r->cluster_slots;
+
+Returns the mapping of cluster slots to nodes.
+
+Since 3.0.0. See L<https://redis.io/commands/cluster-slots/>.
+
+=head3 readonly
+
+  $r->readonly;
+
+Enables read-only queries for a connection to a Redis Cluster replica node.
+
+Since 3.0.0. See L<https://redis.io/commands/readonly/>.
+
+=head3 readwrite
+
+  $r->readwrite;
+
+Enables read-write queries for a connection to a Reids Cluster replica node.
+
+Since 3.0.0. See L<https://redis.io/commands/readwrite/>.
+
+=head2 connection
+
+=head3 auth
+
+  $r->auth(...);
+
+Authenticates the connection.
+
+Since 1.0.0. See L<https://redis.io/commands/auth/>.
+
+=head3 client caching
+
+  $r->client_caching(...);
+
+Instructs the server whether to track the keys in the next request.
+
+Since 6.0.0. See L<https://redis.io/commands/client-caching/>.
+
+=head3 client getname
+
+  $r->client_getname;
+
+Returns the name of the connection.
+
+Since 2.6.9. See L<https://redis.io/commands/client-getname/>.
+
+=head3 client getredir
+
+  $r->client_getredir;
+
+Returns the client ID to which the connection's tracking notifications are redirected.
+
+Since 6.0.0. See L<https://redis.io/commands/client-getredir/>.
+
+=head3 client help
+
+  $r->client_help;
+
+Returns helpful text about the different subcommands.
+
+Since 5.0.0. See L<https://redis.io/commands/client-help/>.
+
+=head3 client id
+
+  $r->client_id;
+
+Returns the unique client ID of the connection.
+
+Since 5.0.0. See L<https://redis.io/commands/client-id/>.
+
+=head3 client info
+
+  $r->client_info;
+
+Returns information about the connection.
+
+Since 6.2.0. See L<https://redis.io/commands/client-info/>.
+
+=head3 client kill
+
+  $r->client_kill(...);
+
+Terminates open connections.
+
+Since 2.4.0. See L<https://redis.io/commands/client-kill/>.
+
+=head3 client list
+
+  $r->client_list(...);
+
+Lists open connections.
+
+Since 2.4.0. See L<https://redis.io/commands/client-list/>.
+
+=head3 client no-evict
+
+  $r->client_no_evict(...);
+
+Sets the client eviction mode of the connection.
+
+Since 7.0.0. See L<https://redis.io/commands/client-no-evict/>.
+
+=head3 client no-touch
+
+  $r->client_no_touch(...);
+
+Controls whether commands sent by the client affect the LRU/LFU of accessed keys.
+
+Since 7.2.0. See L<https://redis.io/commands/client-no-touch/>.
+
+=head3 client pause
+
+  $r->client_pause(...);
+
+Suspends commands processing.
+
+Since 3.0.0. See L<https://redis.io/commands/client-pause/>.
+
+=head3 client reply
+
+  $r->client_reply(...);
+
+Instructs the server whether to reply to commands.
+
+Since 3.2.0. See L<https://redis.io/commands/client-reply/>.
+
+=head3 client setinfo
+
+  $r->client_setinfo(...);
+
+Sets information specific to the client or connection.
+
+Since 7.2.0. See L<https://redis.io/commands/client-setinfo/>.
+
+=head3 client setname
+
+  $r->client_setname($connection_name);
+
+Sets the connection name.
+
+Since 2.6.9. See L<https://redis.io/commands/client-setname/>.
+
+=head3 client tracking
+
+  $r->client_tracking(...);
+
+Controls server-assisted client-side caching for the connection.
+
+Since 6.0.0. See L<https://redis.io/commands/client-tracking/>.
+
+=head3 client trackinginfo
+
+  $r->client_trackinginfo;
+
+Returns information about server-assisted client-side caching for the connection.
+
+Since 6.2.0. See L<https://redis.io/commands/client-trackinginfo/>.
+
+=head3 client unblock
+
+  $r->client_unblock(...);
+
+Unblocks a client blocked by a blocking command from a different connection.
+
+Since 5.0.0. See L<https://redis.io/commands/client-unblock/>.
+
+=head3 client unpause
+
+  $r->client_unpause;
+
+Resumes processing commands from paused clients.
+
+Since 6.2.0. See L<https://redis.io/commands/client-unpause/>.
+
+=head3 echo
+
+  $r->echo($message);
+
+Returns the given string.
+
+Since 1.0.0. See L<https://redis.io/commands/echo/>.
+
+=head3 hello
+
+  $r->hello(...);
+
+Handshakes with the Redis server.
+
+Since 6.0.0. See L<https://redis.io/commands/hello/>.
+
+=head3 ping
+
+  $r->ping(...);
+
+Returns the server's liveliness response.
+
+Since 1.0.0. See L<https://redis.io/commands/ping/>.
+
+=head3 quit
+
+  $r->quit(...);
+
+Closes the connection.
+
+Since 1.0.0. See L<https://redis.io/commands/quit/>.
+
+=head3 reset
+
+  $r->reset;
+
+Resets the connection.
+
+Since 6.2.0. See L<https://redis.io/commands/reset/>.
+
+=head3 select
+
+  $r->select($index);
+
+Changes the selected database.
+
+Since 1.0.0. See L<https://redis.io/commands/select/>.
+
+=head2 generic
+
+=head3 copy
+
+  $r->copy(...);
+
+Copies the value of a key to a new key.
+
+Since 6.2.0. See L<https://redis.io/commands/copy/>.
+
+=head3 del
+
+  $r->del(@keys);
+
+Deletes one or more keys.
+
+Since 1.0.0. See L<https://redis.io/commands/del/>.
+
+=head3 dump
+
+  $r->dump($key);
+
+Returns a serialized representation of the value stored at a key.
+
+Since 2.6.0. See L<https://redis.io/commands/dump/>.
+
+=head3 exists
+
+  $r->exists(@keys);
+
+Determines whether one or more keys exist.
+
+Since 1.0.0. See L<https://redis.io/commands/exists/>.
+
+=head3 expire
+
+  $r->expire(...);
+
+Sets the expiration time of a key in seconds.
+
+Since 1.0.0. See L<https://redis.io/commands/expire/>.
+
+=head3 expireat
+
+  $r->expireat(...);
+
+Sets the expiration time of a key to a Unix timestamp.
+
+Since 1.2.0. See L<https://redis.io/commands/expireat/>.
+
+=head3 expiretime
+
+  $r->expiretime($key);
+
+Returns the expiration time of a key as a Unix timestamp.
+
+Since 7.0.0. See L<https://redis.io/commands/expiretime/>.
+
+=head3 keys
+
+  $r->keys($pattern);
+
+Returns all key names that match a pattern.
+
+Since 1.0.0. See L<https://redis.io/commands/keys/>.
+
+=head3 migrate
+
+  $r->migrate(...);
+
+Atomically transfers a key from one Redis instance to another.
+
+Since 2.6.0. See L<https://redis.io/commands/migrate/>.
+
+=head3 move
+
+  $r->move($key, $db);
+
+Moves a key to another database.
+
+Since 1.0.0. See L<https://redis.io/commands/move/>.
+
+=head3 object encoding
+
+  $r->object_encoding($key);
+
+Returns the internal encoding of a Redis object.
+
+Since 2.2.3. See L<https://redis.io/commands/object-encoding/>.
+
+=head3 object freq
+
+  $r->object_freq($key);
+
+Returns the logarithmic access frequency counter of a Redis object.
+
+Since 4.0.0. See L<https://redis.io/commands/object-freq/>.
+
+=head3 object help
+
+  $r->object_help;
+
+Returns helpful text about the different subcommands.
+
+Since 6.2.0. See L<https://redis.io/commands/object-help/>.
+
+=head3 object idletime
+
+  $r->object_idletime($key);
+
+Returns the time since the last access to a Redis object.
+
+Since 2.2.3. See L<https://redis.io/commands/object-idletime/>.
+
+=head3 object refcount
+
+  $r->object_refcount($key);
+
+Returns the reference count of a value of a key.
+
+Since 2.2.3. See L<https://redis.io/commands/object-refcount/>.
+
+=head3 persist
+
+  $r->persist($key);
+
+Removes the expiration time of a key.
+
+Since 2.2.0. See L<https://redis.io/commands/persist/>.
+
+=head3 pexpire
+
+  $r->pexpire(...);
+
+Sets the expiration time of a key in milliseconds.
+
+Since 2.6.0. See L<https://redis.io/commands/pexpire/>.
+
+=head3 pexpireat
+
+  $r->pexpireat(...);
+
+Sets the expiration time of a key to a Unix milliseconds timestamp.
+
+Since 2.6.0. See L<https://redis.io/commands/pexpireat/>.
+
+=head3 pexpiretime
+
+  $r->pexpiretime($key);
+
+Returns the expiration time of a key as a Unix milliseconds timestamp.
+
+Since 7.0.0. See L<https://redis.io/commands/pexpiretime/>.
+
+=head3 pttl
+
+  $r->pttl($key);
+
+Returns the expiration time in milliseconds of a key.
+
+Since 2.6.0. See L<https://redis.io/commands/pttl/>.
+
+=head3 randomkey
+
+  $r->randomkey;
+
+Returns a random key name from the database.
+
+Since 1.0.0. See L<https://redis.io/commands/randomkey/>.
+
+=head3 rename
+
+  $r->rename($key, $newkey);
+
+Renames a key and overwrites the destination.
+
+Since 1.0.0. See L<https://redis.io/commands/rename/>.
+
+=head3 renamenx
+
+  $r->renamenx($key, $newkey);
+
+Renames a key only when the target key name doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/renamenx/>.
+
+=head3 restore
+
+  $r->restore(...);
+
+Creates a key from the serialized representation of a value.
+
+Since 2.6.0. See L<https://redis.io/commands/restore/>.
+
+=head3 scan
+
+  $r->scan(...);
+
+Iterates over the key names in the database.
+
+Since 2.8.0. See L<https://redis.io/commands/scan/>.
+
+=head3 sort
+
+  $r->sort(...);
+
+Sorts the elements in a list, a set, or a sorted set, optionally storing the result.
+
+Since 1.0.0. See L<https://redis.io/commands/sort/>.
+
+=head3 sort_ro
+
+  $r->sort_ro(...);
+
+Returns the sorted elements of a list, a set, or a sorted set.
+
+Since 7.0.0. See L<https://redis.io/commands/sort_ro/>.
+
+=head3 touch
+
+  $r->touch(@keys);
+
+Returns the number of existing keys out of those specified after updating the time they were last accessed.
+
+Since 3.2.1. See L<https://redis.io/commands/touch/>.
+
+=head3 ttl
+
+  $r->ttl($key);
+
+Returns the expiration time in seconds of a key.
+
+Since 1.0.0. See L<https://redis.io/commands/ttl/>.
+
+=head3 type
+
+  $r->type($key);
+
+Determines the type of value stored at a key.
+
+Since 1.0.0. See L<https://redis.io/commands/type/>.
+
+=head3 unlink
+
+  $r->unlink(@keys);
+
+Asynchronously deletes one or more keys.
+
+Since 4.0.0. See L<https://redis.io/commands/unlink/>.
+
+=head3 wait
+
+  $r->wait($numreplicas, $timeout);
+
+Blocks until the asynchronous replication of all preceding write commands sent by the connection is completed.
+
+Since 3.0.0. See L<https://redis.io/commands/wait/>.
+
+=head3 waitaof
+
+  $r->waitaof($numlocal, $numreplicas, $timeout);
+
+Blocks until all of the preceding write commands sent by the connection are written to the append-only file of the master and/or replicas.
+
+Since 7.2.0. See L<https://redis.io/commands/waitaof/>.
+
+=head2 geo
+
+=head3 geoadd
+
+  $r->geoadd(...);
+
+Adds one or more members to a geospatial index. The key is created if it doesn't exist.
+
+Since 3.2.0. See L<https://redis.io/commands/geoadd/>.
+
+=head3 geodist
+
+  $r->geodist(...);
+
+Returns the distance between two members of a geospatial index.
+
+Since 3.2.0. See L<https://redis.io/commands/geodist/>.
+
+=head3 geohash
+
+  $r->geohash(...);
+
+Returns members from a geospatial index as geohash strings.
+
+Since 3.2.0. See L<https://redis.io/commands/geohash/>.
+
+=head3 geopos
+
+  $r->geopos(...);
+
+Returns the longitude and latitude of members from a geospatial index.
+
+Since 3.2.0. See L<https://redis.io/commands/geopos/>.
+
+=head3 georadius
+
+  $r->georadius(...);
+
+Queries a geospatial index for members within a distance from a coordinate, optionally stores the result.
+
+Since 3.2.0. See L<https://redis.io/commands/georadius/>.
+
+=head3 georadius_ro
+
+  $r->georadius_ro(...);
+
+Returns members from a geospatial index that are within a distance from a coordinate.
+
+Since 3.2.10. See L<https://redis.io/commands/georadius_ro/>.
+
+=head3 georadiusbymember
+
+  $r->georadiusbymember(...);
+
+Queries a geospatial index for members within a distance from a member, optionally stores the result.
+
+Since 3.2.0. See L<https://redis.io/commands/georadiusbymember/>.
+
+=head3 georadiusbymember_ro
+
+  $r->georadiusbymember_ro(...);
+
+Returns members from a geospatial index that are within a distance from a member.
+
+Since 3.2.10. See L<https://redis.io/commands/georadiusbymember_ro/>.
+
+=head3 geosearch
+
+  $r->geosearch(...);
+
+Queries a geospatial index for members inside an area of a box or a circle.
+
+Since 6.2.0. See L<https://redis.io/commands/geosearch/>.
+
+=head3 geosearchstore
+
+  $r->geosearchstore(...);
+
+Queries a geospatial index for members inside an area of a box or a circle, optionally stores the result.
+
+Since 6.2.0. See L<https://redis.io/commands/geosearchstore/>.
+
+=head2 hash
+
+=head3 hdel
+
+  $r->hdel($key, @fields);
+
+Deletes one or more fields and their values from a hash. Deletes the hash if no fields remain.
+
+Since 2.0.0. See L<https://redis.io/commands/hdel/>.
+
+=head3 hexists
+
+  $r->hexists($key, $field);
+
+Determines whether a field exists in a hash.
+
+Since 2.0.0. See L<https://redis.io/commands/hexists/>.
+
+=head3 hget
+
+  $r->hget($key, $field);
+
+Returns the value of a field in a hash.
+
+Since 2.0.0. See L<https://redis.io/commands/hget/>.
+
+=head3 hgetall
+
+  $r->hgetall($key);
+
+Returns all fields and values in a hash.
+
+Since 2.0.0. See L<https://redis.io/commands/hgetall/>.
+
+=head3 hincrby
+
+  $r->hincrby($key, $field, $increment);
+
+Increments the integer value of a field in a hash by a number. Uses 0 as initial value if the field doesn't exist.
+
+Since 2.0.0. See L<https://redis.io/commands/hincrby/>.
+
+=head3 hincrbyfloat
+
+  $r->hincrbyfloat($key, $field, $increment);
+
+Increments the floating point value of a field by a number. Uses 0 as initial value if the field doesn't exist.
+
+Since 2.6.0. See L<https://redis.io/commands/hincrbyfloat/>.
+
+=head3 hkeys
+
+  $r->hkeys($key);
+
+Returns all fields in a hash.
+
+Since 2.0.0. See L<https://redis.io/commands/hkeys/>.
+
+=head3 hlen
+
+  $r->hlen($key);
+
+Returns the number of fields in a hash.
+
+Since 2.0.0. See L<https://redis.io/commands/hlen/>.
+
+=head3 hmget
+
+  $r->hmget($key, @fields);
+
+Returns the values of all fields in a hash.
+
+Since 2.0.0. See L<https://redis.io/commands/hmget/>.
+
+=head3 hmset
+
+  $r->hmset(...);
+
+Sets the values of multiple fields.
+
+Since 2.0.0. See L<https://redis.io/commands/hmset/>.
+
+=head3 hrandfield
+
+  $r->hrandfield(...);
+
+Returns one or more random fields from a hash.
+
+Since 6.2.0. See L<https://redis.io/commands/hrandfield/>.
+
+=head3 hscan
+
+  $r->hscan(...);
+
+Iterates over fields and values of a hash.
+
+Since 2.8.0. See L<https://redis.io/commands/hscan/>.
+
+=head3 hset
+
+  $r->hset(...);
+
+Creates or modifies the value of a field in a hash.
+
+Since 2.0.0. See L<https://redis.io/commands/hset/>.
+
+=head3 hsetnx
+
+  $r->hsetnx($key, $field, $value);
+
+Sets the value of a field in a hash only when the field doesn't exist.
+
+Since 2.0.0. See L<https://redis.io/commands/hsetnx/>.
+
+=head3 hstrlen
+
+  $r->hstrlen($key, $field);
+
+Returns the length of the value of a field.
+
+Since 3.2.0. See L<https://redis.io/commands/hstrlen/>.
+
+=head3 hvals
+
+  $r->hvals($key);
+
+Returns all values in a hash.
+
+Since 2.0.0. See L<https://redis.io/commands/hvals/>.
+
+=head2 hyperloglog
+
+=head3 pfadd
+
+  $r->pfadd(...);
+
+Adds elements to a HyperLogLog key. Creates the key if it doesn't exist.
+
+Since 2.8.9. See L<https://redis.io/commands/pfadd/>.
+
+=head3 pfcount
+
+  $r->pfcount(@keys);
+
+Returns the approximated cardinality of the set(s) observed by the HyperLogLog key(s).
+
+Since 2.8.9. See L<https://redis.io/commands/pfcount/>.
+
+=head3 pfdebug
+
+  $r->pfdebug($subcommand, $key);
+
+Internal commands for debugging HyperLogLog values.
+
+Since 2.8.9. See L<https://redis.io/commands/pfdebug/>.
+
+=head3 pfmerge
+
+  $r->pfmerge(...);
+
+Merges one or more HyperLogLog values into a single key.
+
+Since 2.8.9. See L<https://redis.io/commands/pfmerge/>.
+
+=head3 pfselftest
+
+  $r->pfselftest;
+
+An internal command for testing HyperLogLog values.
+
+Since 2.8.9. See L<https://redis.io/commands/pfselftest/>.
+
+=head2 json
+
+=head3 json.arrappend
+
+  $r->json_arrappend(...);
+
+Append one or more json values into the array at path after the last element in it.
+
+Since 1.0.0. See L<https://redis.io/commands/json.arrappend/>.
+
+=head3 json.arrindex
+
+  $r->json_arrindex(...);
+
+Returns the index of the first occurrence of a JSON scalar value in the array at path
+
+Since 1.0.0. See L<https://redis.io/commands/json.arrindex/>.
+
+=head3 json.arrinsert
+
+  $r->json_arrinsert($key, $path, $index, @values);
+
+Inserts the JSON scalar(s) value at the specified index in the array at path
+
+Since 1.0.0. See L<https://redis.io/commands/json.arrinsert/>.
+
+=head3 json.arrlen
+
+  $r->json_arrlen(...);
+
+Returns the length of the array at path
+
+Since 1.0.0. See L<https://redis.io/commands/json.arrlen/>.
+
+=head3 json.arrpop
+
+  $r->json_arrpop(...);
+
+Removes and returns the element at the specified index in the array at path
+
+Since 1.0.0. See L<https://redis.io/commands/json.arrpop/>.
+
+=head3 json.arrtrim
+
+  $r->json_arrtrim($key, $path, $start, $stop);
+
+Trims the array at path to contain only the specified inclusive range of indices from start to stop
+
+Since 1.0.0. See L<https://redis.io/commands/json.arrtrim/>.
+
+=head3 json.clear
+
+  $r->json_clear(...);
+
+Clears all values from an array or an object and sets numeric values to `0`
+
+Since 2.0.0. See L<https://redis.io/commands/json.clear/>.
+
+=head3 json.debug
+
+  $r->json_debug(...);
+
+Debugging container command
+
+Since 1.0.0. See L<https://redis.io/commands/json.debug/>.
+
+=head3 json.debug help
+
+  $r->json_debug_help(...);
+
+Shows helpful information
+
+Since 1.0.0. See L<https://redis.io/commands/json.debug-help/>.
+
+=head3 json.debug memory
+
+  $r->json_debug_memory(...);
+
+Reports the size in bytes of a key
+
+Since 1.0.0. See L<https://redis.io/commands/json.debug-memory/>.
+
+=head3 json.del
+
+  $r->json_del(...);
+
+Deletes a value
+
+Since 1.0.0. See L<https://redis.io/commands/json.del/>.
+
+=head3 json.forget
+
+  $r->json_forget(...);
+
+Deletes a value
+
+Since 1.0.0. See L<https://redis.io/commands/json.forget/>.
+
+=head3 json.get
+
+  $r->json_get(...);
+
+Gets the value at one or more paths in JSON serialized form
+
+Since 1.0.0. See L<https://redis.io/commands/json.get/>.
+
+=head3 json.merge
+
+  $r->json_merge($key, $path, $value);
+
+Merges a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children
+
+Since 2.6.0. See L<https://redis.io/commands/json.merge/>.
+
+=head3 json.mget
+
+  $r->json_mget(@keys, $path);
+
+Returns the values at a path from one or more keys
+
+Since 1.0.0. See L<https://redis.io/commands/json.mget/>.
+
+=head3 json.mset
+
+  $r->json_mset(...);
+
+Sets or updates the JSON value of one or more keys
+
+Since 2.6.0. See L<https://redis.io/commands/json.mset/>.
+
+=head3 json.numincrby
+
+  $r->json_numincrby($key, $path, $value);
+
+Increments the numeric value at path by a value
+
+Since 1.0.0. See L<https://redis.io/commands/json.numincrby/>.
+
+=head3 json.nummultby
+
+  $r->json_nummultby($key, $path, $value);
+
+Multiplies the numeric value at path by a value
+
+Since 1.0.0. See L<https://redis.io/commands/json.nummultby/>.
+
+=head3 json.objkeys
+
+  $r->json_objkeys(...);
+
+Returns the JSON keys of the object at path
+
+Since 1.0.0. See L<https://redis.io/commands/json.objkeys/>.
+
+=head3 json.objlen
+
+  $r->json_objlen(...);
+
+Returns the number of keys of the object at path
+
+Since 1.0.0. See L<https://redis.io/commands/json.objlen/>.
+
+=head3 json.resp
+
+  $r->json_resp(...);
+
+Returns the JSON value at path in Redis Serialization Protocol (RESP)
+
+Since 1.0.0. See L<https://redis.io/commands/json.resp/>.
+
+=head3 json.set
+
+  $r->json_set(...);
+
+Sets or updates the JSON value at a path
+
+Since 1.0.0. See L<https://redis.io/commands/json.set/>.
+
+=head3 json.strappend
+
+  $r->json_strappend(...);
+
+Appends a string to a JSON string value at path
+
+Since 1.0.0. See L<https://redis.io/commands/json.strappend/>.
+
+=head3 json.strlen
+
+  $r->json_strlen(...);
+
+Returns the length of the JSON String at path in key
+
+Since 1.0.0. See L<https://redis.io/commands/json.strlen/>.
+
+=head3 json.toggle
+
+  $r->json_toggle($key, $path);
+
+Toggles a boolean value
+
+Since 2.0.0. See L<https://redis.io/commands/json.toggle/>.
+
+=head3 json.type
+
+  $r->json_type(...);
+
+Returns the type of the JSON value at path
+
+Since 1.0.0. See L<https://redis.io/commands/json.type/>.
+
+=head2 list
+
+=head3 blmove
+
+  $r->blmove(...);
+
+Pops an element from a list, pushes it to another list and returns it. Blocks until an element is available otherwise. Deletes the list if the last element was moved.
+
+Since 6.2.0. See L<https://redis.io/commands/blmove/>.
+
+=head3 blmpop
+
+  $r->blmpop(...);
+
+Pops the first element from one of multiple lists. Blocks until an element is available otherwise. Deletes the list if the last element was popped.
+
+Since 7.0.0. See L<https://redis.io/commands/blmpop/>.
+
+=head3 blpop
+
+  $r->blpop(@keys, $timeout);
+
+Removes and returns the first element in a list. Blocks until an element is available otherwise. Deletes the list if the last element was popped.
+
+Since 2.0.0. See L<https://redis.io/commands/blpop/>.
+
+=head3 brpop
+
+  $r->brpop(@keys, $timeout);
+
+Removes and returns the last element in a list. Blocks until an element is available otherwise. Deletes the list if the last element was popped.
+
+Since 2.0.0. See L<https://redis.io/commands/brpop/>.
+
+=head3 brpoplpush
+
+  $r->brpoplpush($source, $destination, $timeout);
+
+Pops an element from a list, pushes it to another list and returns it. Block until an element is available otherwise. Deletes the list if the last element was popped.
+
+Since 2.2.0. See L<https://redis.io/commands/brpoplpush/>.
+
+=head3 lindex
+
+  $r->lindex($key, $index);
+
+Returns an element from a list by its index.
+
+Since 1.0.0. See L<https://redis.io/commands/lindex/>.
+
+=head3 linsert
+
+  $r->linsert(...);
+
+Inserts an element before or after another element in a list.
+
+Since 2.2.0. See L<https://redis.io/commands/linsert/>.
+
+=head3 llen
+
+  $r->llen($key);
+
+Returns the length of a list.
+
+Since 1.0.0. See L<https://redis.io/commands/llen/>.
+
+=head3 lmove
+
+  $r->lmove(...);
+
+Returns an element after popping it from one list and pushing it to another. Deletes the list if the last element was moved.
+
+Since 6.2.0. See L<https://redis.io/commands/lmove/>.
+
+=head3 lmpop
+
+  $r->lmpop(...);
+
+Returns multiple elements from a list after removing them. Deletes the list if the last element was popped.
+
+Since 7.0.0. See L<https://redis.io/commands/lmpop/>.
+
+=head3 lpop
+
+  $r->lpop(...);
+
+Returns the first elements in a list after removing it. Deletes the list if the last element was popped.
+
+Since 1.0.0. See L<https://redis.io/commands/lpop/>.
+
+=head3 lpos
+
+  $r->lpos(...);
+
+Returns the index of matching elements in a list.
+
+Since 6.0.6. See L<https://redis.io/commands/lpos/>.
+
+=head3 lpush
+
+  $r->lpush($key, @elements);
+
+Prepends one or more elements to a list. Creates the key if it doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/lpush/>.
+
+=head3 lpushx
+
+  $r->lpushx($key, @elements);
+
+Prepends one or more elements to a list only when the list exists.
+
+Since 2.2.0. See L<https://redis.io/commands/lpushx/>.
+
+=head3 lrange
+
+  $r->lrange($key, $start, $stop);
+
+Returns a range of elements from a list.
+
+Since 1.0.0. See L<https://redis.io/commands/lrange/>.
+
+=head3 lrem
+
+  $r->lrem($key, $count, $element);
+
+Removes elements from a list. Deletes the list if the last element was removed.
+
+Since 1.0.0. See L<https://redis.io/commands/lrem/>.
+
+=head3 lset
+
+  $r->lset($key, $index, $element);
+
+Sets the value of an element in a list by its index.
+
+Since 1.0.0. See L<https://redis.io/commands/lset/>.
+
+=head3 ltrim
+
+  $r->ltrim($key, $start, $stop);
+
+Removes elements from both ends a list. Deletes the list if all elements were trimmed.
+
+Since 1.0.0. See L<https://redis.io/commands/ltrim/>.
+
+=head3 rpop
+
+  $r->rpop(...);
+
+Returns and removes the last elements of a list. Deletes the list if the last element was popped.
+
+Since 1.0.0. See L<https://redis.io/commands/rpop/>.
+
+=head3 rpoplpush
+
+  $r->rpoplpush($source, $destination);
+
+Returns the last element of a list after removing and pushing it to another list. Deletes the list if the last element was popped.
+
+Since 1.2.0. See L<https://redis.io/commands/rpoplpush/>.
+
+=head3 rpush
+
+  $r->rpush($key, @elements);
+
+Appends one or more elements to a list. Creates the key if it doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/rpush/>.
+
+=head3 rpushx
+
+  $r->rpushx($key, @elements);
+
+Appends an element to a list only when the list exists.
+
+Since 2.2.0. See L<https://redis.io/commands/rpushx/>.
+
+=head2 pubsub
+
+=head3 psubscribe
+
+  $r->psubscribe(@patterns);
+
+Listens for messages published to channels that match one or more patterns.
+
+Since 2.0.0. See L<https://redis.io/commands/psubscribe/>.
+
+=head3 publish
+
+  $r->publish($channel, $message);
+
+Posts a message to a channel.
+
+Since 2.0.0. See L<https://redis.io/commands/publish/>.
+
+=head3 pubsub channels
+
+  $r->pubsub_channels(...);
+
+Returns the active channels.
+
+Since 2.8.0. See L<https://redis.io/commands/pubsub-channels/>.
+
+=head3 pubsub help
+
+  $r->pubsub_help;
+
+Returns helpful text about the different subcommands.
+
+Since 6.2.0. See L<https://redis.io/commands/pubsub-help/>.
+
+=head3 pubsub numpat
+
+  $r->pubsub_numpat;
+
+Returns a count of unique pattern subscriptions.
+
+Since 2.8.0. See L<https://redis.io/commands/pubsub-numpat/>.
+
+=head3 pubsub numsub
+
+  $r->pubsub_numsub(...);
+
+Returns a count of subscribers to channels.
+
+Since 2.8.0. See L<https://redis.io/commands/pubsub-numsub/>.
+
+=head3 pubsub shardchannels
+
+  $r->pubsub_shardchannels(...);
+
+Returns the active shard channels.
+
+Since 7.0.0. See L<https://redis.io/commands/pubsub-shardchannels/>.
+
+=head3 pubsub shardnumsub
+
+  $r->pubsub_shardnumsub(...);
+
+Returns the count of subscribers of shard channels.
+
+Since 7.0.0. See L<https://redis.io/commands/pubsub-shardnumsub/>.
+
+=head3 punsubscribe
+
+  $r->punsubscribe(...);
+
+Stops listening to messages published to channels that match one or more patterns.
+
+Since 2.0.0. See L<https://redis.io/commands/punsubscribe/>.
+
+=head3 spublish
+
+  $r->spublish($shardchannel, $message);
+
+Post a message to a shard channel
+
+Since 7.0.0. See L<https://redis.io/commands/spublish/>.
+
+=head3 ssubscribe
+
+  $r->ssubscribe(@shardchannels);
+
+Listens for messages published to shard channels.
+
+Since 7.0.0. See L<https://redis.io/commands/ssubscribe/>.
+
+=head3 subscribe
+
+  $r->subscribe(@channels);
+
+Listens for messages published to channels.
+
+Since 2.0.0. See L<https://redis.io/commands/subscribe/>.
+
+=head3 sunsubscribe
+
+  $r->sunsubscribe(...);
+
+Stops listening to messages posted to shard channels.
+
+Since 7.0.0. See L<https://redis.io/commands/sunsubscribe/>.
+
+=head3 unsubscribe
+
+  $r->unsubscribe(...);
+
+Stops listening to messages posted to channels.
+
+Since 2.0.0. See L<https://redis.io/commands/unsubscribe/>.
+
+=head2 scripting
+
+=head3 eval
+
+  $r->eval(...);
+
+Executes a server-side Lua script.
+
+Since 2.6.0. See L<https://redis.io/commands/eval/>.
+
+=head3 eval_ro
+
+  $r->eval_ro(...);
+
+Executes a read-only server-side Lua script.
+
+Since 7.0.0. See L<https://redis.io/commands/eval_ro/>.
+
+=head3 evalsha
+
+  $r->evalsha(...);
+
+Executes a server-side Lua script by SHA1 digest.
+
+Since 2.6.0. See L<https://redis.io/commands/evalsha/>.
+
+=head3 evalsha_ro
+
+  $r->evalsha_ro(...);
+
+Executes a read-only server-side Lua script by SHA1 digest.
+
+Since 7.0.0. See L<https://redis.io/commands/evalsha_ro/>.
+
+=head3 fcall
+
+  $r->fcall(...);
+
+Invokes a function.
+
+Since 7.0.0. See L<https://redis.io/commands/fcall/>.
+
+=head3 fcall_ro
+
+  $r->fcall_ro(...);
+
+Invokes a read-only function.
+
+Since 7.0.0. See L<https://redis.io/commands/fcall_ro/>.
+
+=head3 function delete
+
+  $r->function_delete($library_name);
+
+Deletes a library and its functions.
+
+Since 7.0.0. See L<https://redis.io/commands/function-delete/>.
+
+=head3 function dump
+
+  $r->function_dump;
+
+Dumps all libraries into a serialized binary payload.
+
+Since 7.0.0. See L<https://redis.io/commands/function-dump/>.
+
+=head3 function flush
+
+  $r->function_flush(...);
+
+Deletes all libraries and functions.
+
+Since 7.0.0. See L<https://redis.io/commands/function-flush/>.
+
+=head3 function help
+
+  $r->function_help;
+
+Returns helpful text about the different subcommands.
+
+Since 7.0.0. See L<https://redis.io/commands/function-help/>.
+
+=head3 function kill
+
+  $r->function_kill;
+
+Terminates a function during execution.
+
+Since 7.0.0. See L<https://redis.io/commands/function-kill/>.
+
+=head3 function list
+
+  $r->function_list(...);
+
+Returns information about all libraries.
+
+Since 7.0.0. See L<https://redis.io/commands/function-list/>.
+
+=head3 function load
+
+  $r->function_load(...);
+
+Creates a library.
+
+Since 7.0.0. See L<https://redis.io/commands/function-load/>.
+
+=head3 function restore
+
+  $r->function_restore(...);
+
+Restores all libraries from a payload.
+
+Since 7.0.0. See L<https://redis.io/commands/function-restore/>.
+
+=head3 function stats
+
+  $r->function_stats;
+
+Returns information about a function during execution.
+
+Since 7.0.0. See L<https://redis.io/commands/function-stats/>.
+
+=head3 script debug
+
+  $r->script_debug(...);
+
+Sets the debug mode of server-side Lua scripts.
+
+Since 3.2.0. See L<https://redis.io/commands/script-debug/>.
+
+=head3 script exists
+
+  $r->script_exists(@sha1s);
+
+Determines whether server-side Lua scripts exist in the script cache.
+
+Since 2.6.0. See L<https://redis.io/commands/script-exists/>.
+
+=head3 script flush
+
+  $r->script_flush(...);
+
+Removes all server-side Lua scripts from the script cache.
+
+Since 2.6.0. See L<https://redis.io/commands/script-flush/>.
+
+=head3 script help
+
+  $r->script_help;
+
+Returns helpful text about the different subcommands.
+
+Since 5.0.0. See L<https://redis.io/commands/script-help/>.
+
+=head3 script kill
+
+  $r->script_kill;
+
+Terminates a server-side Lua script during execution.
+
+Since 2.6.0. See L<https://redis.io/commands/script-kill/>.
+
+=head3 script load
+
+  $r->script_load($script);
+
+Loads a server-side Lua script to the script cache.
+
+Since 2.6.0. See L<https://redis.io/commands/script-load/>.
+
+=head2 server
+
+=head3 acl cat
+
+  $r->acl_cat(...);
+
+Lists the ACL categories, or the commands inside a category.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-cat/>.
+
+=head3 acl deluser
+
+  $r->acl_deluser(@usernames);
+
+Deletes ACL users, and terminates their connections.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-deluser/>.
+
+=head3 acl dryrun
+
+  $r->acl_dryrun(...);
+
+Simulates the execution of a command by a user, without executing the command.
+
+Since 7.0.0. See L<https://redis.io/commands/acl-dryrun/>.
+
+=head3 acl genpass
+
+  $r->acl_genpass(...);
+
+Generates a pseudorandom, secure password that can be used to identify ACL users.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-genpass/>.
+
+=head3 acl getuser
+
+  $r->acl_getuser($username);
+
+Lists the ACL rules of a user.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-getuser/>.
+
+=head3 acl help
+
+  $r->acl_help;
+
+Returns helpful text about the different subcommands.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-help/>.
+
+=head3 acl list
+
+  $r->acl_list;
+
+Dumps the effective rules in ACL file format.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-list/>.
+
+=head3 acl load
+
+  $r->acl_load;
+
+Reloads the rules from the configured ACL file.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-load/>.
+
+=head3 acl log
+
+  $r->acl_log(...);
+
+Lists recent security events generated due to ACL rules.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-log/>.
+
+=head3 acl save
+
+  $r->acl_save;
+
+Saves the effective ACL rules in the configured ACL file.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-save/>.
+
+=head3 acl setuser
+
+  $r->acl_setuser(...);
+
+Creates and modifies an ACL user and its rules.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-setuser/>.
+
+=head3 acl users
+
+  $r->acl_users;
+
+Lists all ACL users.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-users/>.
+
+=head3 acl whoami
+
+  $r->acl_whoami;
+
+Returns the authenticated username of the current connection.
+
+Since 6.0.0. See L<https://redis.io/commands/acl-whoami/>.
+
+=head3 bgrewriteaof
+
+  $r->bgrewriteaof;
+
+Asynchronously rewrites the append-only file to disk.
+
+Since 1.0.0. See L<https://redis.io/commands/bgrewriteaof/>.
+
+=head3 bgsave
+
+  $r->bgsave(...);
+
+Asynchronously saves the database(s) to disk.
+
+Since 1.0.0. See L<https://redis.io/commands/bgsave/>.
+
+=head3 command
+
+  $r->command(...);
+
+Returns detailed information about all commands.
+
+Since 2.8.13. See L<https://redis.io/commands/command/>.
+
+=head3 command count
+
+  $r->command_count;
+
+Returns a count of commands.
+
+Since 2.8.13. See L<https://redis.io/commands/command-count/>.
+
+=head3 command docs
+
+  $r->command_docs(...);
+
+Returns documentary information about one, multiple or all commands.
+
+Since 7.0.0. See L<https://redis.io/commands/command-docs/>.
+
+=head3 command getkeys
+
+  $r->command_getkeys(...);
+
+Extracts the key names from an arbitrary command.
+
+Since 2.8.13. See L<https://redis.io/commands/command-getkeys/>.
+
+=head3 command getkeysandflags
+
+  $r->command_getkeysandflags(...);
+
+Extracts the key names and access flags for an arbitrary command.
+
+Since 7.0.0. See L<https://redis.io/commands/command-getkeysandflags/>.
+
+=head3 command help
+
+  $r->command_help;
+
+Returns helpful text about the different subcommands.
+
+Since 5.0.0. See L<https://redis.io/commands/command-help/>.
+
+=head3 command info
+
+  $r->command_info(...);
+
+Returns information about one, multiple or all commands.
+
+Since 2.8.13. See L<https://redis.io/commands/command-info/>.
+
+=head3 command list
+
+  $r->command_list(...);
+
+Returns a list of command names.
+
+Since 7.0.0. See L<https://redis.io/commands/command-list/>.
+
+=head3 config get
+
+  $r->config_get(@parameters);
+
+Returns the effective values of configuration parameters.
+
+Since 2.0.0. See L<https://redis.io/commands/config-get/>.
+
+=head3 config help
+
+  $r->config_help;
+
+Returns helpful text about the different subcommands.
+
+Since 5.0.0. See L<https://redis.io/commands/config-help/>.
+
+=head3 config resetstat
+
+  $r->config_resetstat;
+
+Resets the server's statistics.
+
+Since 2.0.0. See L<https://redis.io/commands/config-resetstat/>.
+
+=head3 config rewrite
+
+  $r->config_rewrite;
+
+Persists the effective configuration to file.
+
+Since 2.8.0. See L<https://redis.io/commands/config-rewrite/>.
+
+=head3 config set
+
+  $r->config_set(...);
+
+Sets configuration parameters in-flight.
+
+Since 2.0.0. See L<https://redis.io/commands/config-set/>.
+
+=head3 dbsize
+
+  $r->dbsize;
+
+Returns the number of keys in the database.
+
+Since 1.0.0. See L<https://redis.io/commands/dbsize/>.
+
+=head3 failover
+
+  $r->failover(...);
+
+Starts a coordinated failover from a server to one of its replicas.
+
+Since 6.2.0. See L<https://redis.io/commands/failover/>.
+
+=head3 flushall
+
+  $r->flushall(...);
+
+Removes all keys from all databases.
+
+Since 1.0.0. See L<https://redis.io/commands/flushall/>.
+
+=head3 flushdb
+
+  $r->flushdb(...);
+
+Remove all keys from the current database.
+
+Since 1.0.0. See L<https://redis.io/commands/flushdb/>.
+
+=head3 info
+
+  $r->info(...);
+
+Returns information and statistics about the server.
+
+Since 1.0.0. See L<https://redis.io/commands/info/>.
+
+=head3 lastsave
+
+  $r->lastsave;
+
+Returns the Unix timestamp of the last successful save to disk.
+
+Since 1.0.0. See L<https://redis.io/commands/lastsave/>.
+
+=head3 latency doctor
+
+  $r->latency_doctor;
+
+Returns a human-readable latency analysis report.
+
+Since 2.8.13. See L<https://redis.io/commands/latency-doctor/>.
+
+=head3 latency graph
+
+  $r->latency_graph($event);
+
+Returns a latency graph for an event.
+
+Since 2.8.13. See L<https://redis.io/commands/latency-graph/>.
+
+=head3 latency help
+
+  $r->latency_help;
+
+Returns helpful text about the different subcommands.
+
+Since 2.8.13. See L<https://redis.io/commands/latency-help/>.
+
+=head3 latency histogram
+
+  $r->latency_histogram(...);
+
+Returns the cumulative distribution of latencies of a subset or all commands.
+
+Since 7.0.0. See L<https://redis.io/commands/latency-histogram/>.
+
+=head3 latency history
+
+  $r->latency_history($event);
+
+Returns timestamp-latency samples for an event.
+
+Since 2.8.13. See L<https://redis.io/commands/latency-history/>.
+
+=head3 latency latest
+
+  $r->latency_latest;
+
+Returns the latest latency samples for all events.
+
+Since 2.8.13. See L<https://redis.io/commands/latency-latest/>.
+
+=head3 latency reset
+
+  $r->latency_reset(...);
+
+Resets the latency data for one or more events.
+
+Since 2.8.13. See L<https://redis.io/commands/latency-reset/>.
+
+=head3 lolwut
+
+  $r->lolwut(...);
+
+Displays computer art and the Redis version
+
+Since 5.0.0. See L<https://redis.io/commands/lolwut/>.
+
+=head3 memory doctor
+
+  $r->memory_doctor;
+
+Outputs a memory problems report.
+
+Since 4.0.0. See L<https://redis.io/commands/memory-doctor/>.
+
+=head3 memory help
+
+  $r->memory_help;
+
+Returns helpful text about the different subcommands.
+
+Since 4.0.0. See L<https://redis.io/commands/memory-help/>.
+
+=head3 memory malloc-stats
+
+  $r->memory_malloc_stats;
+
+Returns the allocator statistics.
+
+Since 4.0.0. See L<https://redis.io/commands/memory-malloc-stats/>.
+
+=head3 memory purge
+
+  $r->memory_purge;
+
+Asks the allocator to release memory.
+
+Since 4.0.0. See L<https://redis.io/commands/memory-purge/>.
+
+=head3 memory stats
+
+  $r->memory_stats;
+
+Returns details about memory usage.
+
+Since 4.0.0. See L<https://redis.io/commands/memory-stats/>.
+
+=head3 memory usage
+
+  $r->memory_usage(...);
+
+Estimates the memory usage of a key.
+
+Since 4.0.0. See L<https://redis.io/commands/memory-usage/>.
+
+=head3 module help
+
+  $r->module_help;
+
+Returns helpful text about the different subcommands.
+
+Since 5.0.0. See L<https://redis.io/commands/module-help/>.
+
+=head3 module list
+
+  $r->module_list;
+
+Returns all loaded modules.
+
+Since 4.0.0. See L<https://redis.io/commands/module-list/>.
+
+=head3 module load
+
+  $r->module_load(...);
+
+Loads a module.
+
+Since 4.0.0. See L<https://redis.io/commands/module-load/>.
+
+=head3 module loadex
+
+  $r->module_loadex(...);
+
+Loads a module using extended parameters.
+
+Since 7.0.0. See L<https://redis.io/commands/module-loadex/>.
+
+=head3 module unload
+
+  $r->module_unload($name);
+
+Unloads a module.
+
+Since 4.0.0. See L<https://redis.io/commands/module-unload/>.
+
+=head3 monitor
+
+  $r->monitor;
+
+Listens for all requests received by the server in real-time.
+
+Since 1.0.0. See L<https://redis.io/commands/monitor/>.
+
+=head3 psync
+
+  $r->psync($replicationid, $offset);
+
+An internal command used in replication.
+
+Since 2.8.0. See L<https://redis.io/commands/psync/>.
+
+=head3 replconf
+
+  $r->replconf(...);
+
+An internal command for configuring the replication stream.
+
+Since 3.0.0. See L<https://redis.io/commands/replconf/>.
+
+=head3 replicaof
+
+  $r->replicaof($host, $port);
+
+Configures a server as replica of another, or promotes it to a master.
+
+Since 5.0.0. See L<https://redis.io/commands/replicaof/>.
+
+=head3 restore-asking
+
+  $r->restore_asking(...);
+
+An internal command for migrating keys in a cluster.
+
+Since 3.0.0. See L<https://redis.io/commands/restore-asking/>.
+
+=head3 role
+
+  $r->role;
+
+Returns the replication role.
+
+Since 2.8.12. See L<https://redis.io/commands/role/>.
+
+=head3 save
+
+  $r->save;
+
+Synchronously saves the database(s) to disk.
+
+Since 1.0.0. See L<https://redis.io/commands/save/>.
+
+=head3 shutdown
+
+  $r->shutdown(...);
+
+Synchronously saves the database(s) to disk and shuts down the Redis server.
+
+Since 1.0.0. See L<https://redis.io/commands/shutdown/>.
+
+=head3 slaveof
+
+  $r->slaveof($host, $port);
+
+Sets a Redis server as a replica of another, or promotes it to being a master.
+
+Since 1.0.0. See L<https://redis.io/commands/slaveof/>.
+
+=head3 slowlog get
+
+  $r->slowlog_get(...);
+
+Returns the slow log's entries.
+
+Since 2.2.12. See L<https://redis.io/commands/slowlog-get/>.
+
+=head3 slowlog help
+
+  $r->slowlog_help;
+
+Show helpful text about the different subcommands
+
+Since 6.2.0. See L<https://redis.io/commands/slowlog-help/>.
+
+=head3 slowlog len
+
+  $r->slowlog_len;
+
+Returns the number of entries in the slow log.
+
+Since 2.2.12. See L<https://redis.io/commands/slowlog-len/>.
+
+=head3 slowlog reset
+
+  $r->slowlog_reset;
+
+Clears all entries from the slow log.
+
+Since 2.2.12. See L<https://redis.io/commands/slowlog-reset/>.
+
+=head3 swapdb
+
+  $r->swapdb($index1, $index2);
+
+Swaps two Redis databases.
+
+Since 4.0.0. See L<https://redis.io/commands/swapdb/>.
+
+=head3 sync
+
+  $r->sync;
+
+An internal command used in replication.
+
+Since 1.0.0. See L<https://redis.io/commands/sync/>.
+
+=head3 time
+
+  $r->time;
+
+Returns the server time.
+
+Since 2.6.0. See L<https://redis.io/commands/time/>.
+
+=head2 set
+
+=head3 sadd
+
+  $r->sadd($key, @members);
+
+Adds one or more members to a set. Creates the key if it doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/sadd/>.
+
+=head3 scard
+
+  $r->scard($key);
+
+Returns the number of members in a set.
+
+Since 1.0.0. See L<https://redis.io/commands/scard/>.
+
+=head3 sdiff
+
+  $r->sdiff(@keys);
+
+Returns the difference of multiple sets.
+
+Since 1.0.0. See L<https://redis.io/commands/sdiff/>.
+
+=head3 sdiffstore
+
+  $r->sdiffstore($destination, @keys);
+
+Stores the difference of multiple sets in a key.
+
+Since 1.0.0. See L<https://redis.io/commands/sdiffstore/>.
+
+=head3 sinter
+
+  $r->sinter(@keys);
+
+Returns the intersect of multiple sets.
+
+Since 1.0.0. See L<https://redis.io/commands/sinter/>.
+
+=head3 sintercard
+
+  $r->sintercard(...);
+
+Returns the number of members of the intersect of multiple sets.
+
+Since 7.0.0. See L<https://redis.io/commands/sintercard/>.
+
+=head3 sinterstore
+
+  $r->sinterstore($destination, @keys);
+
+Stores the intersect of multiple sets in a key.
+
+Since 1.0.0. See L<https://redis.io/commands/sinterstore/>.
+
+=head3 sismember
+
+  $r->sismember($key, $member);
+
+Determines whether a member belongs to a set.
+
+Since 1.0.0. See L<https://redis.io/commands/sismember/>.
+
+=head3 smembers
+
+  $r->smembers($key);
+
+Returns all members of a set.
+
+Since 1.0.0. See L<https://redis.io/commands/smembers/>.
+
+=head3 smismember
+
+  $r->smismember($key, @members);
+
+Determines whether multiple members belong to a set.
+
+Since 6.2.0. See L<https://redis.io/commands/smismember/>.
+
+=head3 smove
+
+  $r->smove($source, $destination, $member);
+
+Moves a member from one set to another.
+
+Since 1.0.0. See L<https://redis.io/commands/smove/>.
+
+=head3 spop
+
+  $r->spop(...);
+
+Returns one or more random members from a set after removing them. Deletes the set if the last member was popped.
+
+Since 1.0.0. See L<https://redis.io/commands/spop/>.
+
+=head3 srandmember
+
+  $r->srandmember(...);
+
+Get one or multiple random members from a set
+
+Since 1.0.0. See L<https://redis.io/commands/srandmember/>.
+
+=head3 srem
+
+  $r->srem($key, @members);
+
+Removes one or more members from a set. Deletes the set if the last member was removed.
+
+Since 1.0.0. See L<https://redis.io/commands/srem/>.
+
+=head3 sscan
+
+  $r->sscan(...);
+
+Iterates over members of a set.
+
+Since 2.8.0. See L<https://redis.io/commands/sscan/>.
+
+=head3 sunion
+
+  $r->sunion(@keys);
+
+Returns the union of multiple sets.
+
+Since 1.0.0. See L<https://redis.io/commands/sunion/>.
+
+=head3 sunionstore
+
+  $r->sunionstore($destination, @keys);
+
+Stores the union of multiple sets in a key.
+
+Since 1.0.0. See L<https://redis.io/commands/sunionstore/>.
+
+=head2 sorted_set
+
+=head3 bzmpop
+
+  $r->bzmpop(...);
+
+Removes and returns a member by score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.
+
+Since 7.0.0. See L<https://redis.io/commands/bzmpop/>.
+
+=head3 bzpopmax
+
+  $r->bzpopmax(@keys, $timeout);
+
+Removes and returns the member with the highest score from one or more sorted sets. Blocks until a member available otherwise.  Deletes the sorted set if the last element was popped.
+
+Since 5.0.0. See L<https://redis.io/commands/bzpopmax/>.
+
+=head3 bzpopmin
+
+  $r->bzpopmin(@keys, $timeout);
+
+Removes and returns the member with the lowest score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.
+
+Since 5.0.0. See L<https://redis.io/commands/bzpopmin/>.
+
+=head3 zadd
+
+  $r->zadd(...);
+
+Adds one or more members to a sorted set, or updates their scores. Creates the key if it doesn't exist.
+
+Since 1.2.0. See L<https://redis.io/commands/zadd/>.
+
+=head3 zcard
+
+  $r->zcard($key);
+
+Returns the number of members in a sorted set.
+
+Since 1.2.0. See L<https://redis.io/commands/zcard/>.
+
+=head3 zcount
+
+  $r->zcount($key, $min, $max);
+
+Returns the count of members in a sorted set that have scores within a range.
+
+Since 2.0.0. See L<https://redis.io/commands/zcount/>.
+
+=head3 zdiff
+
+  $r->zdiff(...);
+
+Returns the difference between multiple sorted sets.
+
+Since 6.2.0. See L<https://redis.io/commands/zdiff/>.
+
+=head3 zdiffstore
+
+  $r->zdiffstore($destination, $numkeys, @keys);
+
+Stores the difference of multiple sorted sets in a key.
+
+Since 6.2.0. See L<https://redis.io/commands/zdiffstore/>.
+
+=head3 zincrby
+
+  $r->zincrby($key, $increment, $member);
+
+Increments the score of a member in a sorted set.
+
+Since 1.2.0. See L<https://redis.io/commands/zincrby/>.
+
+=head3 zinter
+
+  $r->zinter(...);
+
+Returns the intersect of multiple sorted sets.
+
+Since 6.2.0. See L<https://redis.io/commands/zinter/>.
+
+=head3 zintercard
+
+  $r->zintercard(...);
+
+Returns the number of members of the intersect of multiple sorted sets.
+
+Since 7.0.0. See L<https://redis.io/commands/zintercard/>.
+
+=head3 zinterstore
+
+  $r->zinterstore(...);
+
+Stores the intersect of multiple sorted sets in a key.
+
+Since 2.0.0. See L<https://redis.io/commands/zinterstore/>.
+
+=head3 zlexcount
+
+  $r->zlexcount($key, $min, $max);
+
+Returns the number of members in a sorted set within a lexicographical range.
+
+Since 2.8.9. See L<https://redis.io/commands/zlexcount/>.
+
+=head3 zmpop
+
+  $r->zmpop(...);
+
+Returns the highest- or lowest-scoring members from one or more sorted sets after removing them. Deletes the sorted set if the last member was popped.
+
+Since 7.0.0. See L<https://redis.io/commands/zmpop/>.
+
+=head3 zmscore
+
+  $r->zmscore($key, @members);
+
+Returns the score of one or more members in a sorted set.
+
+Since 6.2.0. See L<https://redis.io/commands/zmscore/>.
+
+=head3 zpopmax
+
+  $r->zpopmax(...);
+
+Returns the highest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.
+
+Since 5.0.0. See L<https://redis.io/commands/zpopmax/>.
+
+=head3 zpopmin
+
+  $r->zpopmin(...);
+
+Returns the lowest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.
+
+Since 5.0.0. See L<https://redis.io/commands/zpopmin/>.
+
+=head3 zrandmember
+
+  $r->zrandmember(...);
+
+Returns one or more random members from a sorted set.
+
+Since 6.2.0. See L<https://redis.io/commands/zrandmember/>.
+
+=head3 zrange
+
+  $r->zrange(...);
+
+Returns members in a sorted set within a range of indexes.
+
+Since 1.2.0. See L<https://redis.io/commands/zrange/>.
+
+=head3 zrangebylex
+
+  $r->zrangebylex(...);
+
+Returns members in a sorted set within a lexicographical range.
+
+Since 2.8.9. See L<https://redis.io/commands/zrangebylex/>.
+
+=head3 zrangebyscore
+
+  $r->zrangebyscore(...);
+
+Returns members in a sorted set within a range of scores.
+
+Since 1.0.5. See L<https://redis.io/commands/zrangebyscore/>.
+
+=head3 zrangestore
+
+  $r->zrangestore(...);
+
+Stores a range of members from sorted set in a key.
+
+Since 6.2.0. See L<https://redis.io/commands/zrangestore/>.
+
+=head3 zrank
+
+  $r->zrank(...);
+
+Returns the index of a member in a sorted set ordered by ascending scores.
+
+Since 2.0.0. See L<https://redis.io/commands/zrank/>.
+
+=head3 zrem
+
+  $r->zrem($key, @members);
+
+Removes one or more members from a sorted set. Deletes the sorted set if all members were removed.
+
+Since 1.2.0. See L<https://redis.io/commands/zrem/>.
+
+=head3 zremrangebylex
+
+  $r->zremrangebylex($key, $min, $max);
+
+Removes members in a sorted set within a lexicographical range. Deletes the sorted set if all members were removed.
+
+Since 2.8.9. See L<https://redis.io/commands/zremrangebylex/>.
+
+=head3 zremrangebyrank
+
+  $r->zremrangebyrank($key, $start, $stop);
+
+Removes members in a sorted set within a range of indexes. Deletes the sorted set if all members were removed.
+
+Since 2.0.0. See L<https://redis.io/commands/zremrangebyrank/>.
+
+=head3 zremrangebyscore
+
+  $r->zremrangebyscore($key, $min, $max);
+
+Removes members in a sorted set within a range of scores. Deletes the sorted set if all members were removed.
+
+Since 1.2.0. See L<https://redis.io/commands/zremrangebyscore/>.
+
+=head3 zrevrange
+
+  $r->zrevrange(...);
+
+Returns members in a sorted set within a range of indexes in reverse order.
+
+Since 1.2.0. See L<https://redis.io/commands/zrevrange/>.
+
+=head3 zrevrangebylex
+
+  $r->zrevrangebylex(...);
+
+Returns members in a sorted set within a lexicographical range in reverse order.
+
+Since 2.8.9. See L<https://redis.io/commands/zrevrangebylex/>.
+
+=head3 zrevrangebyscore
+
+  $r->zrevrangebyscore(...);
+
+Returns members in a sorted set within a range of scores in reverse order.
+
+Since 2.2.0. See L<https://redis.io/commands/zrevrangebyscore/>.
+
+=head3 zrevrank
+
+  $r->zrevrank(...);
+
+Returns the index of a member in a sorted set ordered by descending scores.
+
+Since 2.0.0. See L<https://redis.io/commands/zrevrank/>.
+
+=head3 zscan
+
+  $r->zscan(...);
+
+Iterates over members and scores of a sorted set.
+
+Since 2.8.0. See L<https://redis.io/commands/zscan/>.
+
+=head3 zscore
+
+  $r->zscore($key, $member);
+
+Returns the score of a member in a sorted set.
+
+Since 1.2.0. See L<https://redis.io/commands/zscore/>.
+
+=head3 zunion
+
+  $r->zunion(...);
+
+Returns the union of multiple sorted sets.
+
+Since 6.2.0. See L<https://redis.io/commands/zunion/>.
+
+=head3 zunionstore
+
+  $r->zunionstore(...);
+
+Stores the union of multiple sorted sets in a key.
+
+Since 2.0.0. See L<https://redis.io/commands/zunionstore/>.
+
+=head2 stream
+
+=head3 xack
+
+  $r->xack($key, $group, @ids);
+
+Returns the number of messages that were successfully acknowledged by the consumer group member of a stream.
+
+Since 5.0.0. See L<https://redis.io/commands/xack/>.
+
+=head3 xadd
+
+  $r->xadd(...);
+
+Appends a new message to a stream. Creates the key if it doesn't exist.
+
+Since 5.0.0. See L<https://redis.io/commands/xadd/>.
+
+=head3 xautoclaim
+
+  $r->xautoclaim(...);
+
+Changes, or acquires, ownership of messages in a consumer group, as if the messages were delivered to as consumer group member.
+
+Since 6.2.0. See L<https://redis.io/commands/xautoclaim/>.
+
+=head3 xclaim
+
+  $r->xclaim(...);
+
+Changes, or acquires, ownership of a message in a consumer group, as if the message was delivered a consumer group member.
+
+Since 5.0.0. See L<https://redis.io/commands/xclaim/>.
+
+=head3 xdel
+
+  $r->xdel($key, @ids);
+
+Returns the number of messages after removing them from a stream.
+
+Since 5.0.0. See L<https://redis.io/commands/xdel/>.
+
+=head3 xgroup create
+
+  $r->xgroup_create(...);
+
+Creates a consumer group.
+
+Since 5.0.0. See L<https://redis.io/commands/xgroup-create/>.
+
+=head3 xgroup createconsumer
+
+  $r->xgroup_createconsumer($key, $group, $consumer);
+
+Creates a consumer in a consumer group.
+
+Since 6.2.0. See L<https://redis.io/commands/xgroup-createconsumer/>.
+
+=head3 xgroup delconsumer
+
+  $r->xgroup_delconsumer($key, $group, $consumer);
+
+Deletes a consumer from a consumer group.
+
+Since 5.0.0. See L<https://redis.io/commands/xgroup-delconsumer/>.
+
+=head3 xgroup destroy
+
+  $r->xgroup_destroy($key, $group);
+
+Destroys a consumer group.
+
+Since 5.0.0. See L<https://redis.io/commands/xgroup-destroy/>.
+
+=head3 xgroup help
+
+  $r->xgroup_help;
+
+Returns helpful text about the different subcommands.
+
+Since 5.0.0. See L<https://redis.io/commands/xgroup-help/>.
+
+=head3 xgroup setid
+
+  $r->xgroup_setid(...);
+
+Sets the last-delivered ID of a consumer group.
+
+Since 5.0.0. See L<https://redis.io/commands/xgroup-setid/>.
+
+=head3 xinfo consumers
+
+  $r->xinfo_consumers($key, $group);
+
+Returns a list of the consumers in a consumer group.
+
+Since 5.0.0. See L<https://redis.io/commands/xinfo-consumers/>.
+
+=head3 xinfo groups
+
+  $r->xinfo_groups($key);
+
+Returns a list of the consumer groups of a stream.
+
+Since 5.0.0. See L<https://redis.io/commands/xinfo-groups/>.
+
+=head3 xinfo help
+
+  $r->xinfo_help;
+
+Returns helpful text about the different subcommands.
+
+Since 5.0.0. See L<https://redis.io/commands/xinfo-help/>.
+
+=head3 xinfo stream
+
+  $r->xinfo_stream(...);
+
+Returns information about a stream.
+
+Since 5.0.0. See L<https://redis.io/commands/xinfo-stream/>.
+
+=head3 xlen
+
+  $r->xlen($key);
+
+Return the number of messages in a stream.
+
+Since 5.0.0. See L<https://redis.io/commands/xlen/>.
+
+=head3 xpending
+
+  $r->xpending(...);
+
+Returns the information and entries from a stream consumer group's pending entries list.
+
+Since 5.0.0. See L<https://redis.io/commands/xpending/>.
+
+=head3 xrange
+
+  $r->xrange(...);
+
+Returns the messages from a stream within a range of IDs.
+
+Since 5.0.0. See L<https://redis.io/commands/xrange/>.
+
+=head3 xread
+
+  $r->xread(...);
+
+Returns messages from multiple streams with IDs greater than the ones requested. Blocks until a message is available otherwise.
+
+Since 5.0.0. See L<https://redis.io/commands/xread/>.
+
+=head3 xreadgroup
+
+  $r->xreadgroup(...);
+
+Returns new or historical messages from a stream for a consumer in a group. Blocks until a message is available otherwise.
+
+Since 5.0.0. See L<https://redis.io/commands/xreadgroup/>.
+
+=head3 xrevrange
+
+  $r->xrevrange(...);
+
+Returns the messages from a stream within a range of IDs in reverse order.
+
+Since 5.0.0. See L<https://redis.io/commands/xrevrange/>.
+
+=head3 xsetid
+
+  $r->xsetid(...);
+
+An internal command for replicating stream values.
+
+Since 5.0.0. See L<https://redis.io/commands/xsetid/>.
+
+=head3 xtrim
+
+  $r->xtrim(...);
+
+Deletes messages from the beginning of a stream.
+
+Since 5.0.0. See L<https://redis.io/commands/xtrim/>.
+
+=head2 string
+
+=head3 append
+
+  $r->append($key, $value);
+
+Appends a string to the value of a key. Creates the key if it doesn't exist.
+
+Since 2.0.0. See L<https://redis.io/commands/append/>.
+
+=head3 decr
+
+  $r->decr($key);
+
+Decrements the integer value of a key by one. Uses 0 as initial value if the key doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/decr/>.
+
+=head3 decrby
+
+  $r->decrby($key, $decrement);
+
+Decrements a number from the integer value of a key. Uses 0 as initial value if the key doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/decrby/>.
+
+=head3 get
+
+  $r->get($key);
+
+Returns the string value of a key.
+
+Since 1.0.0. See L<https://redis.io/commands/get/>.
+
+=head3 getdel
+
+  $r->getdel($key);
+
+Returns the string value of a key after deleting the key.
+
+Since 6.2.0. See L<https://redis.io/commands/getdel/>.
+
+=head3 getex
+
+  $r->getex(...);
+
+Returns the string value of a key after setting its expiration time.
+
+Since 6.2.0. See L<https://redis.io/commands/getex/>.
+
+=head3 getrange
+
+  $r->getrange($key, $start, $end);
+
+Returns a substring of the string stored at a key.
+
+Since 2.4.0. See L<https://redis.io/commands/getrange/>.
+
+=head3 getset
+
+  $r->getset($key, $value);
+
+Returns the previous string value of a key after setting it to a new value.
+
+Since 1.0.0. See L<https://redis.io/commands/getset/>.
+
+=head3 incr
+
+  $r->incr($key);
+
+Increments the integer value of a key by one. Uses 0 as initial value if the key doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/incr/>.
+
+=head3 incrby
+
+  $r->incrby($key, $increment);
+
+Increments the integer value of a key by a number. Uses 0 as initial value if the key doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/incrby/>.
+
+=head3 incrbyfloat
+
+  $r->incrbyfloat($key, $increment);
+
+Increment the floating point value of a key by a number. Uses 0 as initial value if the key doesn't exist.
+
+Since 2.6.0. See L<https://redis.io/commands/incrbyfloat/>.
+
+=head3 lcs
+
+  $r->lcs(...);
+
+Finds the longest common substring.
+
+Since 7.0.0. See L<https://redis.io/commands/lcs/>.
+
+=head3 mget
+
+  $r->mget(@keys);
+
+Atomically returns the string values of one or more keys.
+
+Since 1.0.0. See L<https://redis.io/commands/mget/>.
+
+=head3 mset
+
+  $r->mset(...);
+
+Atomically creates or modifies the string values of one or more keys.
+
+Since 1.0.1. See L<https://redis.io/commands/mset/>.
+
+=head3 msetnx
+
+  $r->msetnx(...);
+
+Atomically modifies the string values of one or more keys only when all keys don't exist.
+
+Since 1.0.1. See L<https://redis.io/commands/msetnx/>.
+
+=head3 psetex
+
+  $r->psetex($key, $milliseconds, $value);
+
+Sets both string value and expiration time in milliseconds of a key. The key is created if it doesn't exist.
+
+Since 2.6.0. See L<https://redis.io/commands/psetex/>.
+
+=head3 set
+
+  $r->set(...);
+
+Sets the string value of a key, ignoring its type. The key is created if it doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/set/>.
+
+=head3 setex
+
+  $r->setex($key, $seconds, $value);
+
+Sets the string value and expiration time of a key. Creates the key if it doesn't exist.
+
+Since 2.0.0. See L<https://redis.io/commands/setex/>.
+
+=head3 setnx
+
+  $r->setnx($key, $value);
+
+Set the string value of a key only when the key doesn't exist.
+
+Since 1.0.0. See L<https://redis.io/commands/setnx/>.
+
+=head3 setrange
+
+  $r->setrange($key, $offset, $value);
+
+Overwrites a part of a string value with another by an offset. Creates the key if it doesn't exist.
+
+Since 2.2.0. See L<https://redis.io/commands/setrange/>.
+
+=head3 strlen
+
+  $r->strlen($key);
+
+Returns the length of a string value.
+
+Since 2.2.0. See L<https://redis.io/commands/strlen/>.
+
+=head3 substr
+
+  $r->substr($key, $start, $end);
+
+Returns a substring from a string value.
+
+Since 1.0.0. See L<https://redis.io/commands/substr/>.
+
+=head2 transactions
+
+=head3 discard
+
+  $r->discard;
+
+Discards a transaction.
+
+Since 2.0.0. See L<https://redis.io/commands/discard/>.
+
+=head3 exec
+
+  $r->exec;
+
+Executes all commands in a transaction.
+
+Since 1.2.0. See L<https://redis.io/commands/exec/>.
+
+=head3 multi
+
+  $r->multi;
+
+Starts a transaction.
+
+Since 1.2.0. See L<https://redis.io/commands/multi/>.
+
+=head3 unwatch
+
+  $r->unwatch;
+
+Forgets about watched keys of a transaction.
+
+Since 2.2.0. See L<https://redis.io/commands/unwatch/>.
+
+=head3 watch
+
+  $r->watch(@keys);
+
+Monitors changes to keys to determine the execution of a transaction.
+
+Since 2.2.0. See L<https://redis.io/commands/watch/>.
+
+=head1 SEE ALSO
+
+L<Redis>
