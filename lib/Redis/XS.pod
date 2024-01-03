@@ -2193,7 +2193,7 @@ Since 3.0.0. See L<https://redis.io/commands/replconf/>.
 
 =head3 replicaof
 
-  $r->replicaof($host, $port);
+  $r->replicaof(...);
 
 Configures a server as replica of another, or promotes it to a master.
 
@@ -2233,7 +2233,7 @@ Since 1.0.0. See L<https://redis.io/commands/shutdown/>.
 
 =head3 slaveof
 
-  $r->slaveof($host, $port);
+  $r->slaveof(...);
 
 Sets a Redis server as a replica of another, or promotes it to being a master.
 
