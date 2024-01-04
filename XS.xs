@@ -87,10 +87,8 @@ static IV runCommand(
     redisContext *self, int argc, const char **argv, const size_t *argvlen
 ) {
     redisReply *reply = redisCommandArgv(self, argc, argv, argvlen);
-    if (!reply || self->err) {
-        fprintf(stderr, "Error: Couldn't execute redisCommandArgv\n");
-        exit(1);
-    }
+    if (!reply || self->err)
+        croak("Command error: %s", self->errstr);
 
     replyTuple tup = decodeReply(aTHX_ reply);
     freeReplyObject(reply);
@@ -200,10 +198,8 @@ redisContext *new(const char *class, ...)
                 username, password, name);
         else
             reply = redisCommand(self, "HELLO 3 SETNAME %s", name);
-        if (!reply || self->err) {
-            fprintf(stderr, "Error: Couldn't execute redisCommandArgv\n");
-            exit(1);
-        }
+        if (!reply || self->err)
+            croak("Command error: %s", self->errstr);
 
         // Set library name & version, but ignore errors as command is 7.2+.
         redisAppendCommand(self, "CLIENT SETINFO LIB-NAME %s", lib_name);
