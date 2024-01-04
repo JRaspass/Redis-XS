@@ -101,10 +101,8 @@ TYPEMAP
 BOOT:
     redisInitOpenSSL();
 
-    for (int i = 1; commands[i].name; i++) {
-        CV *cv = newXS(commands[i].name, XS_Redis__XS_call, file);
-        XSANY.any_i32 = i;
-    }
+    for (int i = 1; commands[i].name; i++)
+        CvXSUBANY(newXS(commands[i].name, XS_Redis__XS_call, file)).any_i32 = i;
 
 redisContext *new(const char *class, ...)
     CODE:
