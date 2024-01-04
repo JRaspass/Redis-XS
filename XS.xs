@@ -81,38 +81,6 @@ static replyTuple decodeReply(pTHX_ redisReply* reply) {
     return tup;
 }
 
-// TODO I feel this stack manipulation could be simpler.
-static IV runCommand(
-    pTHX_ SV **sp, U32 ax,
-    redisContext *self, int argc, const char **argv, const size_t *argvlen
-) {
-    redisReply *reply = redisCommandArgv(self, argc, argv, argvlen);
-    if (!reply || self->err)
-        croak("Command error: %s", self->errstr);
-
-    replyTuple tup = decodeReply(aTHX_ reply);
-    freeReplyObject(reply);
-
-    tup.sv = sv_2mortal(tup.sv);
-
-    if (tup.err) croak_sv(sv_2mortal(tup.err));
-
-    // Return arrays as a list in list context.
-    // TODO Do the same for hashes.
-    if (GIMME_V == G_LIST && SvROK(tup.sv) && SvTYPE(SvRV(tup.sv)) == SVt_PVAV) {
-        AV    *av = (AV *) SvRV(tup.sv);
-        SV  **svs = AvARRAY(av);
-        int count = av_count(av);
-
-        EXTEND(SP, count);
-        for(int i = 0; i < count; i++) ST(i) = svs[i];
-        return count;
-    }
-
-    ST(0) = tup.sv;
-    return 1;
-}
-
 MODULE = Redis::XS PACKAGE = Redis::XS
 
 PROTOTYPES: DISABLE
@@ -241,7 +209,31 @@ void call(...)
             argvlen[cmd.argc + i] = len;
         }
 
-        XSRETURN(runCommand(aTHX_ sp, ax, self, total_argc, argv, argvlen));
+        redisReply *reply = redisCommandArgv(self, total_argc, argv, argvlen);
+        if (!reply || self->err)
+            croak("Command error: %s", self->errstr);
+
+        replyTuple tup = decodeReply(aTHX_ reply);
+        freeReplyObject(reply);
+
+        tup.sv = sv_2mortal(tup.sv);
+
+        if (tup.err) croak_sv(sv_2mortal(tup.err));
+
+        // Return arrays as a list in list context.
+        // TODO Do the same for hashes.
+        if (GIMME_V == G_LIST && SvROK(tup.sv) && SvTYPE(SvRV(tup.sv)) == SVt_PVAV) {
+            AV    *av = (AV *) SvRV(tup.sv);
+            SV  **svs = AvARRAY(av);
+            int count = av_count(av);
+
+            EXTEND(SP, count);
+            for(int i = 0; i < count; i++) ST(i) = svs[i];
+            XSRETURN(count);
+        }
+
+        ST(0) = tup.sv;
+        XSRETURN(1);
 
 void DESTROY(redisContext *self);
     CODE:
