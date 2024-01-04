@@ -135,19 +135,8 @@ TYPEMAP
 BOOT:
     redisInitOpenSSL();
 
-    for (int i = 1; commands[i]; i++) {
-        // FIXME This code is terrible.
-        int len = strlen("Redis::XS::") + strlen(commands[i]);
-        char *name = alloca(len) + 1;
-        strcpy(name, "Redis::XS::");
-        strcpy(name + strlen("Redis::XS::"), commands[i]);
-
-        // Replace pipes, hyphens, & spaces with underscores in the sub name.
-        for (int j = 0; j < len; j++)
-            if (name[j] == '|' || name[j] == '-' || name[j] == '.')
-                name[j] = '_';
-
-        CV *cv = newXS(name, XS_Redis__XS_bitcount, file);
+    for (int i = 1; commands[i].name; i++) {
+        CV *cv = newXS(commands[i].name, XS_Redis__XS_call, file);
         XSANY.any_i32 = i;
     }
 
@@ -228,51 +217,35 @@ redisContext *new(const char *class, ...)
     OUTPUT:
         RETVAL
 
-void call(redisContext *self, cmd, ...)
+void call(...)
     PPCODE:
-        int          argc    = items - 1;
-        const char **argv    = alloca(argc * sizeof(const char *));
-        size_t      *argvlen = alloca(argc * sizeof(size_t));
+        // Validate operands: $r->call('CMD', ...) or $r->cmd(...).
+        bool isCall  = XSANY.any_i32 == 0;
+        int minItems = isCall ? 2 : 1;
+        if (items < minItems || !sv_isobject(ST(0)))
+            croak_xs_usage(cv, isCall ? "self, cmd, ..." : "self, ...");
+
+        redisContext *self = INT2PTR(redisContext *, SvIVX(SvRV(ST(0))));
+
+        int              argc       = items - 1;
+        redisCommandData cmd        = commands[XSANY.any_i32];
+        int              total_argc = argc + cmd.argc;
+
+        const char **argv    = alloca(total_argc * sizeof(const char *));
+        size_t      *argvlen = alloca(total_argc * sizeof(size_t));
+
+        for (int i = 0; i < cmd.argc; i++) {
+            argv[i] = cmd.argv[i];
+            argvlen[i] = strlen(cmd.argv[i]);   // Consider storing these?
+        }
 
         for (int i = 0; i < argc; i++) {
             STRLEN len;
-            argv[i] = SvPV(ST(i + 1), len);
-            argvlen[i] = len;
+            argv[cmd.argc + i] = SvPV(ST(i + 1), len);
+            argvlen[cmd.argc + i] = len;
         }
 
-        XSRETURN(runCommand(aTHX_ sp, ax, self, argc, argv, argvlen));
-
-void bitcount(redisContext *self, ...)
-    PPCODE:
-        // FIXME This logic could be (hopefully) simplified.
-        const char* const cmd = commands[XSANY.any_i32];
-        char *subcmd          = strchr(cmd, '|');
-
-        int base = subcmd ? 1 : 0;
-        int argc = base + items;
-
-        const char **argv    = alloca(argc * sizeof(const char *));
-        size_t      *argvlen = alloca(argc * sizeof(size_t));
-
-        if (subcmd) {
-            argv[0]    = cmd;
-            argvlen[0] = subcmd - cmd;
-            argv[1]    = ++subcmd;
-            argvlen[1] = strlen(subcmd);
-        }
-        else {
-            argv[0]    = cmd;
-            argvlen[0] = strlen(cmd);
-        }
-
-        // Append any arguments.
-        for (int i = 1; i < items; i++) {
-            STRLEN len;
-            argv[base + i] = SvPV(ST(i), len);
-            argvlen[base + i] = len;
-        }
-
-        XSRETURN(runCommand(aTHX_ sp, ax, self, argc, argv, argvlen));
+        XSRETURN(runCommand(aTHX_ sp, ax, self, total_argc, argv, argvlen));
 
 void DESTROY(redisContext *self);
     CODE:

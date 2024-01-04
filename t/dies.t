@@ -4,6 +4,8 @@ sub t(&$);
 
 t { CLASS->call      } 'Usage: Redis::XS::call(self, cmd, ...)';
 t { CLASS->new->call } 'Usage: Redis::XS::call(self, cmd, ...)';
+t { CLASS->get       } 'Usage: Redis::XS::get(self, ...)';
+t { Redis::XS::get() } 'Usage: Redis::XS::get(self, ...)';
 
 t { CLASS->new( port => 9999 ) } 'Connection error: Connection refused';
 

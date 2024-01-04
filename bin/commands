@@ -4,6 +4,7 @@ use v5.38;
 use experimental qw( for_list );
 
 use JSON::PP;
+use List::Util qw( max );
 
 my sub slurp($file)           { local ( @ARGV, $/ ) = $file; <> }
 my sub spurt($file, $content) { open my $fh, '>', $file; print $fh $content }
@@ -40,29 +41,36 @@ delete $cmds{sentinel};
 @$_ = sort { $a->{command} cmp $b->{command} } @$_ for values %cmds;
 
 # Update C header.
-open STDOUT, '>', 'commands.h';
+open my $fh, '>', 'commands.h';
 
-say 'static const char* const commands[] = {';
+print $fh <<~'C';
+    typedef struct {
+        const char* const name;
+        int               argc;
+        const char* const argv[2];
+    } redisCommandData;
+
+    static const redisCommandData commands[] = {
+
+        {},
+    C
 
 for my ( $group, $cmds ) ( %cmds{ sort keys %cmds } ) {
-    say "// $group";
+    say $fh "\n    // $group";
 
-    my $line = '';
+    my $max = max map length $_->{command}, @$cmds;
     for ( map $_->{command}, @$cmds ) {
-        my $elem = $skip{$_} ? qq(/* $_ */ ) : qq("$_", );
+        my @args = split /\|/;
 
-        if ( ( length($line) + length($elem) ) >= 80 ) {
-            say $line =~ s/ $//r;
-            $line = '';
-        }
-
-        $line .= $elem;
+        printf $fh qq/%s{"Redis::XS::%s", %s%d, {"%s"}},\n/,
+            $skip{$_} ? ' // ' : '    ', s/\W/_/gr, ' ' x ($max - length),
+            scalar @args, join '", "', @args;
     }
-
-    say $line =~ s/ $/\n/r;
 }
 
-say '0};';
+say $fh "\n    {},\n};";
+
+close $fh;
 
 # Update POD.
 my $pod;
